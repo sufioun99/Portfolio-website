@@ -2982,10 +2982,16 @@ body.template5 .project-placeholder {
 }
 
 .contact-item i {
-    color: var(--accent-primary);
-    font-size: 1.5rem;
-    width: 40px;
-    text-align: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 15px rgba(var(--accent-primary-rgb), 0.3);
 }
 
 .contact-item h4 {
