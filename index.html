@@ -9,11 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Loading Animation -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="logo">As Nasim</div>
-            <ul class="nav-menu">
+            <a href="#home" class="logo">As Nasim</a>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
@@ -33,21 +44,16 @@
                     </button>
                 </div>
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
                     <i class="fas fa-moon"></i>
                 </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            
-            <script>
-                // Check for saved theme preference on page load
-                document.addEventListener('DOMContentLoaded', function() {
-                    const savedTheme = localStorage.getItem('theme');
-                    if (savedTheme === 'light') {
-                        document.body.classList.add('light-mode');
-                        document.querySelector('#themeToggle i').classList.remove('fa-moon');
-                        document.querySelector('#themeToggle i').classList.add('fa-sun');
-                    }
-                });
-            </script>
         </div>
     </nav>
 
@@ -55,17 +61,31 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">
+                <h1 class="hero-title animate-fade-up">
                     <span class="title-primary">Hi, I'm</span>
                     <span class="title-secondary">MD ABU SUFIOUN NASIM</span>
                 </h1>
-                <p class="hero-subtitle">Data Analyst | Database Developer | Oracle APEX & Forms Developer | Report Developer | Mathematician</p>
+                <p class="hero-subtitle animate-fade-up delay-1">
+                    <span class="typing-text" id="typingText"></span>
+                    <span class="cursor">|</span>
+                </p>
+                <div class="hero-social animate-fade-up delay-2">
+                    <a href="https://www.linkedin.com/in/md-abu-sufioun-nasim-049b5b231/" class="social-icon" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/sufioun99" class="social-icon" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:asnasim46@gmail.com" class="social-icon" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
                 <p class="hero-description">
                     I transform complex data into actionable insights, design robust database systems, 
                     build enterprise-level applications with Oracle APEX, and apply mathematical 
                     principles to solve real-world problems.
                 </p>
-                <div class="hero-buttons">
+                <div class="hero-buttons animate-fade-up delay-3">
                     <a href="#work" class="btn btn-primary">View My Work</a>
                     <a href="Resume of Nasim.pdf" class="btn btn-secondary" target="_blank">Download CV</a>
                 </div>
@@ -89,7 +109,7 @@
                 <div class="about-image">
                     <img src="img/About-profile.png" alt="As Nasim">
                 </div>
-                <div class="about-text">
+                <div class="about-text animate-on-scroll">
                     <h3>Introduction</h3>
                     <p>
                         I'm MD ABU SUFIOUN NASIM, a passionate Data Analyst at Vita Architectural & Interior with a unique 
@@ -790,6 +810,11 @@
             </div>
         </div>
     </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Footer -->
     <footer class="footer">
