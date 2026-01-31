@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -60,6 +65,11 @@
             </div>
         </div>
     </nav>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -171,12 +181,12 @@
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal-up">
                 <h2 class="section-title">Technical Skills</h2>
                 <div class="title-underline"></div>
             </div>
             <div class="skills-grid">
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-1">
                     <h3><i class="fas fa-chart-bar"></i> Data Analysis</h3>
                     <div class="skill-list">
                         <span>SQL & PL/SQL</span>
@@ -190,8 +200,11 @@
                         <span>NumPy</span>
                         <span>Matplotlib</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="90%"></div>
+                    </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-2">
                     <h3><i class="fas fa-database"></i> Database Development</h3>
                     <div class="skill-list">
                         <span>Oracle Database</span>
@@ -201,8 +214,11 @@
                         <span>Database Design</span>
                         <span>Performance Tuning</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="95%"></div>
+                    </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-3">
                     <h3><i class="fas fa-code"></i> Oracle APEX</h3>
                     <div class="skill-list">
                         <span>APEX Application Development</span>
@@ -212,8 +228,11 @@
                         <span>RESTful Services</span>
                         <span>APEX Integrations</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="92%"></div>
+                    </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-4">
                     <h3><i class="fas fa-file-code"></i> Oracle Forms</h3>
                     <div class="skill-list">
                         <span>Oracle Forms Development</span>
@@ -223,8 +242,11 @@
                         <span>Form Security</span>
                         <span>Form Deployments</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="90%"></div>
+                    </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-5">
                     <h3><i class="fas fa-file-alt"></i> Oracle Reports</h3>
                     <div class="skill-list">
                         <span>Oracle Reports Development</span>
@@ -234,8 +256,11 @@
                         <span>Report Distribution</span>
                         <span>Report Performance</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="88%"></div>
+                    </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-6">
                     <h3><i class="fas fa-calculator"></i> Mathematics</h3>
                     <div class="skill-list">
                         <span>Mathematical Modeling</span>
@@ -245,8 +270,11 @@
                         <span>Discrete Mathematics</span>
                         <span>Optimization</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="85%"></div>
+                    </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal-up stagger-1">
                     <h3><i class="fas fa-brain"></i> AI & Machine Learning</h3>
                     <div class="skill-list">
                         <span>Data Science</span>
@@ -259,6 +287,9 @@
                         <span>Computer Vision</span>
                         <span>Predictive Modeling</span>
                     </div>
+                    <div class="skill-bar">
+                        <div class="progress" data-width="82%"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -267,12 +298,12 @@
     <!-- Work Section -->
     <section id="work" class="work">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal-up">
                 <h2 class="section-title">My Work</h2>
                 <div class="title-underline"></div>
             </div>
                 <div class="projects-grid">
-                <div class="project-card" onclick="window.location.href='projects/inventory-management.html'">
+                <div class="project-card reveal-up stagger-1" onclick="window.location.href='projects/inventory-management.html'">
                     <div class="project-image">
                         <div class="project-placeholder">
                             <i class="fas fa-shopping-cart"></i>
@@ -450,12 +481,33 @@
     <!-- Achievements Section -->
     <section id="achievements" class="achievements">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal-up">
                 <h2 class="section-title">Achievements</h2>
                 <div class="title-underline"></div>
             </div>
+            
+            <!-- Stats Counter -->
+            <div class="stats-grid reveal-up stagger-1" style="display: flex; justify-content: center; gap: 3rem; margin-bottom: 3rem; flex-wrap: wrap;">
+                <div class="stat-counter">
+                    <span class="counter" data-target="9">0</span>
+                    <span class="counter-label">Projects Completed</span>
+                </div>
+                <div class="stat-counter">
+                    <span class="counter" data-target="5">0</span>
+                    <span class="counter-label">Certifications</span>
+                </div>
+                <div class="stat-counter">
+                    <span class="counter" data-target="3">0</span>
+                    <span class="counter-label">Years Experience</span>
+                </div>
+                <div class="stat-counter">
+                    <span class="counter" data-target="50">0</span>
+                    <span class="counter-label">Skills</span>
+                </div>
+            </div>
+            
             <div class="achievements-grid">
-                <div class="achievement-card">
+                <div class="achievement-card reveal-up stagger-2">
                     <div class="achievement-icon">
                         <i class="fas fa-trophy"></i>
                     </div>

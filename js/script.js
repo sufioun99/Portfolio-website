@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
     
     // Initialize all features
+    initParticleBackground();
     initThemeToggle();
     initTemplateSwitcher();
     initMobileMenu();
@@ -22,7 +23,327 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScrolling();
     initTypingAnimation();
     initCardHoverEffects();
+    initParallaxEffect();
+    initCounterAnimations();
+    initMouseCursor();
+    initLazyLoading();
+    initTiltEffects();
+    initMagneticButtons();
 });
+
+// Particle Background Effect
+function initParticleBackground() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    
+    // Create canvas for particles
+    const canvas = document.createElement('canvas');
+    canvas.id = 'particleCanvas';
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '1';
+    hero.style.position = 'relative';
+    hero.insertBefore(canvas, hero.firstChild);
+    
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    
+    function resizeCanvas() {
+        canvas.width = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Particle class
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = Math.random() * 1 - 0.5;
+            this.speedY = Math.random() * 1 - 0.5;
+            this.opacity = Math.random() * 0.5 + 0.2;
+            this.color = getComputedStyle(document.body).getPropertyValue('--accent-primary').trim() || '#6366f1';
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+        }
+        
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.opacity;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+    }
+    
+    // Create particles
+    function initParticles() {
+        particles = [];
+        const particleCount = Math.min(50, Math.floor(canvas.width / 20));
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+    
+    initParticles();
+    
+    // Animation loop
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+    
+    // Update particles on resize
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        initParticles();
+    });
+}
+
+// Parallax Scrolling Effect
+function initParallaxEffect() {
+    const hero = document.querySelector('.hero');
+    const heroImage = document.querySelector('.hero-image');
+    
+    if (!hero || !heroImage) return;
+    
+    window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+        
+        // Parallax for hero image
+        if (scrollY < window.innerHeight) {
+            heroImage.style.transform = `translateY(${scrollY * 0.3}px)`;
+            heroImage.style.opacity = 1 - scrollY / window.innerHeight;
+        }
+        
+        // Parallax for particles
+        const particles = document.getElementById('particleCanvas');
+        if (particles) {
+            particles.style.transform = `translateY(${scrollY * 0.5}px)`;
+        }
+    });
+}
+
+// Counter Animation for Stats
+function initCounterAnimations() {
+    const counters = document.querySelectorAll('.counter');
+    
+    if (!counters.length) return;
+    
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                updateCounter();
+                counterObserver.unobserve(counter);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(counter => counterObserver.observe(counter));
+}
+
+// Custom Mouse Cursor
+function initMouseCursor() {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    cursor.style.cssText = `
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--accent-primary, #6366f1);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+        mix-blend-mode: difference;
+    `;
+    document.body.appendChild(cursor);
+    
+    const cursorFollower = document.createElement('div');
+    cursorFollower.className = 'cursor-follower';
+    cursorFollower.style.cssText = `
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--accent-primary, #6366f1);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.15s ease-out;
+    `;
+    document.body.appendChild(cursorFollower);
+    
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    let followerX = 0, followerY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+    });
+    
+    // Smooth cursor animation
+    function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.2;
+        cursorY += (mouseY - cursorY) * 0.2;
+        followerX += (mouseX - followerX) * 0.3;
+        followerY += (mouseY - followerY) * 0.3;
+        
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+        cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px) translate(-50%, -50%)`;
+        
+        requestAnimationFrame(animateCursor);
+    }
+    
+    animateCursor();
+    
+    // Hover effects
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .achievement-card, .skill-category');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.width = '40px';
+            cursor.style.height = '40px';
+            cursor.style.borderWidth = '3px';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.style.width = '20px';
+            cursor.style.height = '20px';
+            cursor.style.borderWidth = '2px';
+        });
+    });
+    
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        cursorFollower.style.opacity = '0';
+    });
+    
+    document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+        cursorFollower.style.opacity = '1';
+    });
+    
+    // Check for touch devices
+    if ('ontouchstart' in window) {
+        cursor.style.display = 'none';
+        cursorFollower.style.display = 'none';
+    }
+}
+
+// Lazy Loading Images
+function initLazyLoading() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    if (!images.length) return;
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                img.classList.add('loaded');
+                imageObserver.unobserve(img);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// 3D Tilt Effect for Cards
+function initTiltEffects() {
+    const tiltCards = document.querySelectorAll('.project-card, .achievement-card');
+    
+    tiltCards.forEach(card => {
+        card.style.transformStyle = 'preserve-3d';
+        card.style.perspective = '1000px';
+        
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+    });
+}
+
+// Magnetic Button Effect
+function initMagneticButtons() {
+    const buttons = document.querySelectorAll('.btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            button.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+        });
+    });
+}
 
 // Theme Toggle Functionality
 function initThemeToggle() {
