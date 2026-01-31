@@ -259,12 +259,15 @@ function initMouseCursor() {
         cursor.style.top = mouseY + 'px';
     });
     
-    // Smooth cursor animation
+    // Smooth cursor animation - Main cursor follows instantly, follower has slight delay
     function animateCursor() {
-        cursorX += (mouseX - cursorX) * 0.2;
-        cursorY += (mouseY - cursorY) * 0.2;
-        followerX += (mouseX - followerX) * 0.3;
-        followerY += (mouseY - followerY) * 0.3;
+        // Main cursor follows instantly
+        cursorX = mouseX;
+        cursorY = mouseY;
+        
+        // Follower has slight easing for visual effect
+        followerX += (mouseX - followerX) * 0.5;
+        followerY += (mouseY - followerY) * 0.5;
         
         cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
         cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px) translate(-50%, -50%)`;
@@ -688,8 +691,8 @@ function initScrollAnimations() {
         });
     }, observerOptions);
     
-    // Observe all animate-on-scroll elements
-    const animateElements = document.querySelectorAll('.animate-on-scroll');
+    // Observe all animate-on-scroll and reveal-up elements
+    const animateElements = document.querySelectorAll('.animate-on-scroll, .reveal-up');
     animateElements.forEach(el => {
         observer.observe(el);
     });
