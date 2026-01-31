@@ -27,38 +27,90 @@ document.addEventListener('DOMContentLoaded', function() {
 // Theme Toggle Functionality
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
+    
+    if (!themeToggle) {
+        console.error('Theme toggle button not found');
+        return;
+    }
+    
     const body = document.body;
+    const icon = themeToggle.querySelector('i');
     
     // Set initial theme from localStorage or default to dark mode
     const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Determine initial theme: saved preference > system preference > dark mode
+    let isLightMode = false;
     if (savedTheme === 'light') {
-        body.classList.add('light-mode');
-        themeToggle.querySelector('i').classList.remove('fa-moon');
-        themeToggle.querySelector('i').classList.add('fa-sun');
-    } else {
-        body.classList.remove('light-mode');
-        themeToggle.querySelector('i').classList.remove('fa-sun');
-        themeToggle.querySelector('i').classList.add('fa-moon');
+        isLightMode = true;
+    } else if (savedTheme === 'dark') {
+        isLightMode = false;
+    } else if (!savedTheme && !prefersDark) {
+        isLightMode = true;
     }
     
-    // Add direct click listener to theme toggle
+    // Apply initial theme
+    if (isLightMode) {
+        body.classList.add('light-mode');
+        if (icon) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    } else {
+        body.classList.remove('light-mode');
+        if (icon) {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    }
+    
+    // Add click listener to theme toggle
     themeToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         
-        // Toggle theme
-        document.body.classList.toggle('light-mode');
-        const icon = this.querySelector('i');
-        if (document.body.classList.contains('light-mode')) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
+        // Toggle light-mode class
+        body.classList.toggle('light-mode');
+        const currentIcon = this.querySelector('i');
+        
+        if (body.classList.contains('light-mode')) {
+            if (currentIcon) {
+                currentIcon.classList.remove('fa-moon');
+                currentIcon.classList.add('fa-sun');
+            }
             localStorage.setItem('theme', 'light');
             console.log('Light mode enabled');
         } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
+            if (currentIcon) {
+                currentIcon.classList.remove('fa-sun');
+                currentIcon.classList.add('fa-moon');
+            }
             localStorage.setItem('theme', 'dark');
             console.log('Dark mode enabled');
+        }
+        
+        // Update CSS custom properties for smooth transition
+        document.documentElement.style.setProperty('--transition-duration', '0.3s');
+    });
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        // Only auto-switch if user hasn't set a preference
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                body.classList.remove('light-mode');
+                if (icon) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            } else {
+                body.classList.add('light-mode');
+                if (icon) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            }
         }
     });
 }
@@ -388,24 +440,11 @@ function initCardHoverEffects() {
 // Navbar Background on Scroll
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
-    const isLightMode = document.body.classList.contains('light-mode');
     
-    if (window.pageYOffset > 100) {
-        if (isLightMode) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
-        }
+    if (window.pageYOffset > 50) {
+        navbar.classList.add('scrolled');
     } else {
-        if (isLightMode) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
+        navbar.classList.remove('scrolled');
     }
 });
 
