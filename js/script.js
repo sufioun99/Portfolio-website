@@ -115,6 +115,24 @@ function initThemeToggle() {
     });
 }
 
+// Update theme toggle icon based on current state
+function updateThemeToggleIcon() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+    
+    const icon = themeToggle.querySelector('i');
+    if (!icon) return;
+    
+    const isLightMode = document.body.classList.contains('light-mode');
+    if (isLightMode) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
+}
+
 // Template Switching Functionality
 function initTemplateSwitcher() {
     const templateBtns = document.querySelectorAll('.template-btn');
@@ -139,6 +157,9 @@ function initTemplateSwitcher() {
         }
     });
     
+    // Update theme toggle icon to match current theme
+    updateThemeToggleIcon();
+    
     templateBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const template = this.dataset.template;
@@ -158,6 +179,9 @@ function initTemplateSwitcher() {
             // Add selected template class
             document.body.classList.add(template);
             localStorage.setItem('template', template);
+            
+            // Update theme toggle icon to match current theme
+            updateThemeToggleIcon();
             
             console.log(template + ' activated');
             

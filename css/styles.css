@@ -8,6 +8,7 @@
 :root {
     /* Default Theme (Midnight Blue) - Dark Mode */
     --bg-primary: #0f172a;
+    --bg-primary-rgb: 15, 23, 42;
     --bg-secondary: #1e293b;
     --bg-tertiary: #334155;
     --bg-card: rgba(99, 102, 241, 0.1);
@@ -29,6 +30,7 @@
 /* Light Mode Override */
 body.light-mode {
     --bg-primary: #ffffff;
+    --bg-primary-rgb: 255, 255, 255;
     --bg-secondary: #f8fafc;
     --bg-tertiary: #e2e8f0;
     --bg-card: rgba(99, 102, 241, 0.08);
@@ -50,6 +52,7 @@ body.light-mode {
 /* Template 2 - Ocean Blue - Completely Different */
 body.template2:not(.light-mode) {
     --bg-primary: #0c1929;
+    --bg-primary-rgb: 12, 25, 41;
     --bg-secondary: #132f4c;
     --bg-tertiary: #1e3a5f;
     --bg-card: rgba(6, 182, 212, 0.1);
@@ -70,6 +73,7 @@ body.template2:not(.light-mode) {
 
 body.template2.light-mode {
     --bg-primary: #ecfeff;
+    --bg-primary-rgb: 236, 254, 255;
     --bg-secondary: #cffafe;
     --bg-tertiary: #a5f3fc;
     --bg-card: rgba(6, 182, 212, 0.1);
@@ -91,6 +95,7 @@ body.template2.light-mode {
 /* Template 3 - Emerald Green - Completely Different */
 body.template3:not(.light-mode) {
     --bg-primary: #052e16;
+    --bg-primary-rgb: 5, 46, 22;
     --bg-secondary: #064e3b;
     --bg-tertiary: #065f46;
     --bg-card: rgba(34, 197, 94, 0.1);
@@ -111,6 +116,7 @@ body.template3:not(.light-mode) {
 
 body.template3.light-mode {
     --bg-primary: #f0fdf4;
+    --bg-primary-rgb: 240, 253, 244;
     --bg-secondary: #dcfce7;
     --bg-tertiary: #bbf7d0;
     --bg-card: rgba(34, 197, 94, 0.1);
@@ -132,6 +138,7 @@ body.template3.light-mode {
 /* Template 4 - Sunset Bronze - Completely Different */
 body.template4:not(.light-mode) {
     --bg-primary: #1c0a00;
+    --bg-primary-rgb: 28, 10, 0;
     --bg-secondary: #2d1600;
     --bg-tertiary: #3d1f00;
     --bg-card: rgba(234, 88, 12, 0.1);
@@ -152,6 +159,7 @@ body.template4:not(.light-mode) {
 
 body.template4.light-mode {
     --bg-primary: #fffbeb;
+    --bg-primary-rgb: 255, 251, 235;
     --bg-secondary: #fef3c7;
     --bg-tertiary: #fde68a;
     --bg-card: rgba(234, 88, 12, 0.1);
@@ -173,6 +181,7 @@ body.template4.light-mode {
 /* Template 5 - Royal Purple - Completely Different */
 body.template5:not(.light-mode) {
     --bg-primary: #0f0518;
+    --bg-primary-rgb: 15, 5, 24;
     --bg-secondary: #1a0b2e;
     --bg-tertiary: #25123d;
     --bg-card: rgba(168, 85, 247, 0.1);
@@ -193,6 +202,7 @@ body.template5:not(.light-mode) {
 
 body.template5.light-mode {
     --bg-primary: #faf5ff;
+    --bg-primary-rgb: 250, 245, 255;
     --bg-secondary: #f3e8ff;
     --bg-tertiary: #e9d5ff;
     --bg-card: rgba(168, 85, 247, 0.1);
@@ -466,6 +476,331 @@ body.template-transition {
         left: 50%;
         transform: translateX(-50%);
     }
+}
+
+/* Template-specific Navbar Styles */
+
+/* Template 1: Classic Professional - Standard navbar */
+body.template1 .navbar {
+    padding: 1rem 0;
+}
+
+body.template1 .nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+body.template1 .nav-link:hover,
+body.template1 .nav-link.active {
+    background: var(--bg-card);
+}
+
+body.template1 .nav-link::after {
+    display: none;
+}
+
+body.template1 .nav-link.active::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: var(--accent-primary);
+    border-radius: 2px;
+}
+
+body.template1 .template-switcher {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+body.template1 .template-btn {
+    background: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+}
+
+body.template1 .template-btn:hover {
+    background: var(--bg-card);
+    transform: scale(1.1);
+}
+
+body.template1 .template-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 2px 10px rgba(var(--accent-primary-rgb), 0.3);
+}
+
+body.template1 .theme-toggle {
+    background: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+}
+
+body.template1 .theme-toggle:hover {
+    background: var(--bg-card);
+    transform: rotate(0) scale(1.1);
+}
+
+/* Template 2: Modern Split - Clean, minimal navbar */
+body.template2 .navbar {
+    padding: 0.75rem 0;
+    border-bottom: 2px solid var(--accent-primary);
+}
+
+body.template2 .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+body.template2 .nav-link:hover,
+body.template2 .nav-link.active {
+    background: rgba(var(--accent-primary-rgb), 0.1);
+}
+
+body.template2 .nav-link::after,
+body.template2 .nav-link.active::before {
+    display: none;
+}
+
+body.template2 .template-switcher {
+    background: var(--bg-tertiary);
+    padding: 0.25rem;
+    border-radius: 8px;
+}
+
+body.template2 .template-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+    border: none;
+    background: transparent;
+}
+
+body.template2 .template-btn.active {
+    background: var(--accent-primary);
+    box-shadow: 0 2px 8px rgba(var(--accent-primary-rgb), 0.4);
+}
+
+body.template2 .theme-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    border: none;
+}
+
+/* Template 3: Minimal Clean - Centered, floating navbar */
+body.template3 .navbar {
+    padding: 1.5rem 0;
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+}
+
+body.template3 .nav-container {
+    justify-content: center;
+}
+
+body.template3 .logo {
+    position: absolute;
+    left: 2rem;
+}
+
+body.template3 .nav-menu {
+    gap: 2rem;
+}
+
+body.template3 .nav-link {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    border-radius: 50px;
+}
+
+body.template3 .nav-link:hover,
+body.template3 .nav-link.active {
+    background: var(--bg-card);
+    color: var(--accent-primary);
+}
+
+body.template3 .nav-link::after,
+body.template3 .nav-link.active::before {
+    display: none;
+}
+
+body.template3 .nav-controls {
+    position: absolute;
+    right: 2rem;
+}
+
+body.template3 .template-switcher {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+body.template3 .template-btn {
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+body.template3 .template-btn.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+body.template3 .theme-toggle {
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+}
+
+/* Template 4: Bold Creative - Full-width, creative navbar */
+body.template4 .navbar {
+    padding: 0;
+    border: none;
+}
+
+body.template4 .nav-container {
+    gap: 0;
+}
+
+body.template4 .logo {
+    background: var(--accent-primary);
+    -webkit-text-fill-color: white;
+    padding: 1rem 2rem;
+    margin: -1rem 2rem -1rem -2rem;
+}
+
+body.template4 .nav-menu {
+    flex: 1;
+    justify-content: center;
+    gap: 0;
+}
+
+body.template4 .nav-link {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 0;
+    position: relative;
+}
+
+body.template4 .nav-link:hover,
+body.template4 .nav-link.active {
+    background: var(--bg-card);
+}
+
+body.template4 .nav-link.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+body.template4 .nav-link::after,
+body.template4 .nav-link.active::before {
+    display: none;
+}
+
+body.template4 .nav-controls {
+    gap: 0.5rem;
+}
+
+body.template4 .template-switcher {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+body.template4 .template-btn {
+    background: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+}
+
+body.template4 .template-btn.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+body.template4 .theme-toggle {
+    background: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+}
+
+/* Template 5: Elegant Dark - Sleek, glass-morphism navbar */
+body.template5 .navbar {
+    padding: 1rem 0;
+    background: rgba(var(--bg-primary-rgb), 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--accent-border);
+}
+
+body.template5 .nav-link {
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+body.template5 .nav-link:hover,
+body.template5 .nav-link.active {
+    background: rgba(var(--accent-primary-rgb), 0.15);
+    color: var(--accent-primary);
+}
+
+body.template5 .nav-link::after,
+body.template5 .nav-link.active::before {
+    display: none;
+}
+
+body.template5 .template-switcher {
+    background: rgba(var(--accent-primary-rgb), 0.1);
+    padding: 0.25rem;
+    border-radius: 50px;
+    border: 1px solid var(--accent-border);
+}
+
+body.template5 .template-btn {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+body.template5 .template-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 0 15px rgba(var(--accent-primary-rgb), 0.5);
+}
+
+body.template5 .theme-toggle {
+    background: rgba(var(--accent-primary-rgb), 0.1);
+    border: 1px solid var(--accent-border);
+    border-radius: 50px;
+    padding: 0.5rem;
+    width: auto;
+    height: auto;
 }
 
 .nav-link:hover,
