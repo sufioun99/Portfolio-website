@@ -2,6 +2,12 @@
 
 console.log('Portfolio script loaded');
 
+// Mobile detection utility
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           (window.innerWidth <= 768);
+}
+
 // Performance optimization: Debounce function
 function debounce(func, wait = 16) {
     let timeout;
@@ -39,6 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Initialize features based on device
+    const mobile = isMobile();
+    
+    if (mobile) {
+        document.body.classList.add('mobile-device');
+    }
+    
     // Initialize all features
     initParticleBackground();
     initThemeToggle();
@@ -53,7 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initCardHoverEffects();
     initParallaxEffect();
     initCounterAnimations();
-    initMouseCursor();
+    if (!mobile) {
+        initMouseCursor();
+    }
     initLazyLoading();
     initTiltEffects();
     initMagneticButtons();
@@ -150,12 +165,17 @@ function initParticleBackground() {
     });
 }
 
-// Parallax Scrolling Effect - Optimized with throttling
+// Parallax Scrolling Effect - Optimized with throttling and mobile support
 function initParallaxEffect() {
     const hero = document.querySelector('.hero');
     const heroImage = document.querySelector('.hero-image');
     
     if (!hero || !heroImage) return;
+    
+    // Disable parallax on mobile for better performance
+    if (window.innerWidth <= 768) {
+        return;
+    }
     
     let ticking = false;
     
@@ -215,8 +235,13 @@ function initCounterAnimations() {
     counters.forEach(counter => counterObserver.observe(counter));
 }
 
-// Custom Mouse Cursor
+// Custom Mouse Cursor - Optimized
 function initMouseCursor() {
+    // Skip on touch devices
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        return;
+    }
+    
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
     cursor.style.cssText = `
@@ -228,8 +253,9 @@ function initMouseCursor() {
         pointer-events: none;
         z-index: 9999;
         transform: translate(-50%, -50%);
-        transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+        transition: transform 0.05s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
         mix-blend-mode: difference;
+        will-change: transform;
     `;
     document.body.appendChild(cursor);
     
@@ -244,7 +270,8 @@ function initMouseCursor() {
         pointer-events: none;
         z-index: 9999;
         transform: translate(-50%, -50%);
-        transition: transform 0.15s ease-out;
+        transition: transform 0.08s ease-out;
+        will-change: transform;
     `;
     document.body.appendChild(cursorFollower);
     
@@ -252,12 +279,11 @@ function initMouseCursor() {
     let cursorX = 0, cursorY = 0;
     let followerX = 0, followerY = 0;
     
+    // Use passive listener for better performance
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        cursor.style.left = mouseX + 'px';
-        cursor.style.top = mouseY + 'px';
-    });
+    }, { passive: true });
     
     // Smooth cursor animation - Main cursor follows instantly, follower has slight delay
     function animateCursor() {
@@ -277,39 +303,34 @@ function initMouseCursor() {
     
     animateCursor();
     
-    // Hover effects
-    const interactiveElements = document.querySelectorAll('a, button, .project-card, .achievement-card, .skill-category');
+    // Hover effects - Optimized with event delegation
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .achievement-card, .skill-category, .btn');
     
     interactiveElements.forEach(el => {
+        el.style.cursor = 'none';
         el.addEventListener('mouseenter', () => {
             cursor.style.width = '40px';
             cursor.style.height = '40px';
             cursor.style.borderWidth = '3px';
-        });
+        }, { passive: true });
         
         el.addEventListener('mouseleave', () => {
             cursor.style.width = '20px';
             cursor.style.height = '20px';
             cursor.style.borderWidth = '2px';
-        });
+        }, { passive: true });
     });
     
     // Hide cursor when leaving window
     document.addEventListener('mouseleave', () => {
         cursor.style.opacity = '0';
         cursorFollower.style.opacity = '0';
-    });
+    }, { passive: true });
     
     document.addEventListener('mouseenter', () => {
         cursor.style.opacity = '1';
         cursorFollower.style.opacity = '1';
-    });
-    
-    // Check for touch devices
-    if ('ontouchstart' in window) {
-        cursor.style.display = 'none';
-        cursorFollower.style.display = 'none';
-    }
+    }, { passive: true });
 }
 
 // Lazy Loading Images

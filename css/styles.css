@@ -1062,6 +1062,24 @@ img.loaded {
     opacity: 1;
 }
 
+/* Custom Cursor - Hide on mobile */
+.custom-cursor,
+.cursor-follower {
+    display: none;
+}
+
+body.mobile-device .custom-cursor,
+body.mobile-device .cursor-follower {
+    display: none !important;
+}
+
+@media (min-width: 769px) {
+    .custom-cursor,
+    .cursor-follower {
+        display: block;
+    }
+}
+
 /* Focus States for Accessibility */
 *:focus-visible {
     outline: 2px solid var(--accent-primary);
