@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis Dashboard | MD ABU SUFIOUN NASIM</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <style>
+        /* Data Analysis Dashboard Specific Styles */
+        .dashboard-container {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            padding: 8rem 0 4rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Charts Section */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-action-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .chart-action-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* ML Models Section */
+        .ml-models-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .ml-models-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .ml-models-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ml-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .ml-model-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .ml-model-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+
+        .ml-model-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .ml-model-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .ml-model-metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .ml-metric {
+            text-align: center;
+        }
+
+        .ml-metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .ml-metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .ml-model-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .ml-action-btn {
+            flex: 1;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .ml-action-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Data Table */
+        .data-table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 300px;
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        thead {
+            background: var(--bg-secondary);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .dashboard-header p {
+                font-size: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
+            .ml-models-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">As Nasim</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../index.html#additional-skills" class="nav-link">Additional Skills</a></li>
+                <li><a href="../index.html#work" class="nav-link">Work</a></li>
+                <li><a href="../index.html#education" class="nav-link">Education & Certifications</a></li>
+                <li><a href="../index.html#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="template-switcher">
+                    <button class="template-btn active" data-template="template1" aria-label="Template 1">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button class="template-btn" data-template="template2" aria-label="Template 2">
+                        <i class="fas fa-layer-group"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Data Analysis Dashboard Section -->
+    <section class="dashboard-container">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Data Analysis Dashboard</h1>
+                <p>Interactive dashboard with machine learning models for data visualization and predictive analysis</p>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="stat-value">12,458</div>
+                    <div class="stat-label">Total Records</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value">87.5%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">3,892</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value">24h</div>
+                    <div class="stat-label">Last Update</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-container">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Sales Distribution</h3>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" id="salesChartRefresh">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Product Categories</h3>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" id="categoriesChartRefresh">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoriesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Monthly Revenue</h3>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" id="revenueChartRefresh">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Customer Segments</h3>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" id="customerChartRefresh">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="customerChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Machine Learning Models -->
+            <div class="ml-models-container">
+                <div class="ml-models-header">
+                    <h2 class="ml-models-title">Machine Learning Models</h2>
+                </div>
+                <div class="ml-models-grid">
+                    <div class="ml-model-card">
+                        <div class="ml-model-name">Random Forest Classifier</div>
+                        <div class="ml-model-description">Predict customer churn based on behavioral patterns</div>
+                        <div class="ml-model-metrics">
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">92%</div>
+                                <div class="ml-metric-label">Accuracy</div>
+                            </div>
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">89%</div>
+                                <div class="ml-metric-label">Precision</div>
+                            </div>
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">91%</div>
+                                <div class="ml-metric-label">Recall</div>
+                            </div>
+                        </div>
+                        <div class="ml-model-actions">
+                            <button class="ml-action-btn" id="randomForestPredict">
+                                <i class="fas fa-magic"></i> Predict
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ml-model-card">
+                        <div class="ml-model-name">XGBoost Regressor</div>
+                        <div class="ml-model-description">Predict product sales based on historical data</div>
+                        <div class="ml-model-metrics">
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">88%</div>
+                                <div class="ml-metric-label">Accuracy</div>
+                            </div>
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">0.85</div>
+                                <div class="ml-metric-label">R² Score</div>
+                            </div>
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">125</div>
+                                <div class="ml-metric-label">MAE</div>
+                            </div>
+                        </div>
+                        <div class="ml-model-actions">
+                            <button class="ml-action-btn" id="xgboostPredict">
+                                <i class="fas fa-magic"></i> Predict
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ml-model-card">
+                        <div class="ml-model-name">K-Means Clustering</div>
+                        <div class="ml-model-description">Segment customers into distinct groups</div>
+                        <div class="ml-model-metrics">
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">0.78</div>
+                                <div class="ml-metric-label">Silhouette Score</div>
+                            </div>
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">5</div>
+                                <div class="ml-metric-label">Clusters</div>
+                            </div>
+                            <div class="ml-metric">
+                                <div class="ml-metric-value">2,458</div>
+                                <div class="ml-metric-label">Samples</div>
+                            </div>
+                        </div>
+                        <div class="ml-model-actions">
+                            <button class="ml-action-btn" id="kmeansCluster">
+                                <i class="fas fa-magic"></i> Cluster
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h2 class="table-title">Customer Data</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchCustomers" placeholder="Search customers...">
+                    </div>
+                </div>
+                <table id="customersTable">
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Total Spent</th>
+                            <th>Products Bought</th>
+                            <th>Last Purchase</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CUST-001</td>
+                            <td>John Smith</td>
+                            <td>john@example.com</td>
+                            <td>$2,450</td>
+                            <td>12</td>
+                            <td>2025-01-15</td>
+                        </tr>
+                        <tr>
+                            <td>CUST-002</td>
+                            <td>Jane Doe</td>
+                            <td>jane@example.com</td>
+                            <td>$1,890</td>
+                            <td>8</td>
+                            <td>2025-01-16</td>
+                        </tr>
+                        <tr>
+                            <td>CUST-003</td>
+                            <td>Michael Johnson</td>
+                            <td>michael@example.com</td>
+                            <td>$3,200</td>
+                            <td>15</td>
+                            <td>2025-01-17</td>
+                        </tr>
+                        <tr>
+                            <td>CUST-004</td>
+                            <td>Sarah Williams</td>
+                            <td>sarah@example.com</td>
+                            <td>$1,560</td>
+                            <td>6</td>
+                            <td>2025-01-18</td>
+                        </tr>
+                        <tr>
+                            <td>CUST-005</td>
+                            <td>David Brown</td>
+                            <td>david@example.com</td>
+                            <td>$2,890</td>
+                            <td>10</td>
+                            <td>2025-01-19</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ML Model Prediction Modal -->
+    <div class="modal" id="mlPredictionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Model Prediction</h2>
+                <button class="modal-close" id="closeMlPredictionModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="predictionResult">
+                <div class="form-group">
+                    <label>Model:</label>
+                    <div id="modalModelName">Random Forest Classifier</div>
+                </div>
+                <div class="form-group">
+                    <label>Prediction:</label>
+                    <div id="modalPrediction">Customer is likely to churn</div>
+                </div>
+                <div class="form-group">
+                    <label>Confidence:</label>
+                    <div id="modalConfidence">92%</div>
+                </div>
+                <div class="form-group">
+                    <label>Recommendation:</label>
+                    <div id="modalRecommendation">Offer a 10% discount to retain customer</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closePredictionModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Data Analysis Dashboard Specific Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme and template initialization
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.querySelector('#themeToggle i').classList.remove('fa-moon');
+                document.querySelector('#themeToggle i').classList.add('fa-sun');
+            }
+
+            const savedTemplate = localStorage.getItem('template');
+            if (savedTemplate === 'template2') {
+                document.body.classList.add('template2');
+                document.querySelector('[data-template="template1"]').classList.remove('active');
+                document.querySelector('[data-template="template2"]').classList.add('active');
+            }
+
+            // Initialize Charts
+            initializeCharts();
+
+            // Search functionality
+            const searchInput = document.getElementById('searchCustomers');
+            const customersTable = document.getElementById('customersTable');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = customersTable.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            // ML Model Prediction Modal
+            const randomForestBtn = document.getElementById('randomForestPredict');
+            const xgboostBtn = document.getElementById('xgboostPredict');
+            const kmeansBtn = document.getElementById('kmeansCluster');
+            const mlPredictionModal = document.getElementById('mlPredictionModal');
+            const closeMlPredictionModal = document.getElementById('closeMlPredictionModal');
+            const closePredictionModalBtn = document.getElementById('closePredictionModalBtn');
+
+            function openPredictionModal(modelName, prediction, confidence, recommendation) {
+                document.getElementById('modalModelName').textContent = modelName;
+                document.getElementById('modalPrediction').textContent = prediction;
+                document.getElementById('modalConfidence').textContent = confidence;
+                document.getElementById('modalRecommendation').textContent = recommendation;
+                mlPredictionModal.classList.add('active');
+            }
+
+            randomForestBtn.addEventListener('click', function() {
+                openPredictionModal(
+                    'Random Forest Classifier',
+                    'Customer is likely to churn',
+                    '92%',
+                    'Offer a 10% discount to retain customer'
+                );
+            });
+
+            xgboostBtn.addEventListener('click', function() {
+                openPredictionModal(
+                    'XGBoost Regressor',
+                    'Predicted sales: $3,500',
+                    '88%',
+                    'Increase inventory for predicted products'
+                );
+            });
+
+            kmeansBtn.addEventListener('click', function() {
+                openPredictionModal(
+                    'K-Means Clustering',
+                    'Customer belongs to Cluster 2',
+                    '0.78',
+                    'Target with premium product recommendations'
+                );
+            });
+
+            closeMlPredictionModal.addEventListener('click', function() {
+                mlPredictionModal.classList.remove('active');
+            });
+
+            closePredictionModalBtn.addEventListener('click', function() {
+                mlPredictionModal.classList.remove('active');
+            });
+
+            mlPredictionModal.addEventListener('click', function(e) {
+                if (e.target === mlPredictionModal) {
+                    mlPredictionModal.classList.remove('active');
+                }
+            });
+
+            // Refresh chart buttons
+            document.getElementById('salesChartRefresh').addEventListener('click', function() {
+                refreshChart('salesChart');
+            });
+
+            document.getElementById('categoriesChartRefresh').addEventListener('click', function() {
+                refreshChart('categoriesChart');
+            });
+
+            document.getElementById('revenueChartRefresh').addEventListener('click', function() {
+                refreshChart('revenueChart');
+            });
+
+            document.getElementById('customerChartRefresh').addEventListener('click', function() {
+                refreshChart('customerChart');
+            });
+
+            console.log('Data Analysis Dashboard script loaded');
+        });
+
+        // Initialize Charts
+        function initializeCharts() {
+            const ctxSales = document.getElementById('salesChart').getContext('2d');
+            const ctxCategories = document.getElementById('categoriesChart').getContext('2d');
+            const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            const ctxCustomer = document.getElementById('customerChart').getContext('2d');
+
+            // Sales Distribution Chart
+            const salesChart = new Chart(ctxSales, {
+                type: 'bar',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [65000, 78000, 82000, 95000],
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'var(--text-primary)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'var(--text-primary)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Product Categories Chart
+            const categoriesChart = new Chart(ctxCategories, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Electronics', 'Clothing', 'Home & Garden', 'Sports'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [35, 25, 20, 20],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(0, 210, 255, 0.8)',
+                            'rgba(58, 123, 213, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(118, 75, 162, 1)',
+                            'rgba(0, 210, 255, 1)',
+                            'rgba(58, 123, 213, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'var(--text-primary)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Monthly Revenue Chart
+            const revenueChart = new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [15000, 18000, 22000, 25000, 28000, 30000],
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'var(--text-primary)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'var(--text-primary)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Customer Segments Chart
+            const customerChart = new Chart(ctxCustomer, {
+                type: 'radar',
+                data: {
+                    labels: ['Purchase Frequency', 'Average Order Value', 'Loyalty Score', 'Response Rate'],
+                    datasets: [{
+                        label: 'Segment A',
+                        data: [85, 90, 95, 80],
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(102, 126, 234, 1)'
+                    }, {
+                        label: 'Segment B',
+                        data: [65, 75, 80, 70],
+                        backgroundColor: 'rgba(0, 210, 255, 0.2)',
+                        borderColor: 'rgba(0, 210, 255, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(0, 210, 255, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(0, 210, 255, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'var(--text-primary)'
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            pointLabels: {
+                                color: 'var(--text-primary)'
+                            },
+                            ticks: {
+                                color: 'var(--text-primary)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Store charts in global variable for refresh
+            window.charts = {
+                sales: salesChart,
+                categories: categoriesChart,
+                revenue: revenueChart,
+                customer: customerChart
+            };
+        }
+
+        // Refresh chart with new data
+        function refreshChart(chartId) {
+            const chart = window.charts[chartId.replace('Chart', '').toLowerCase()];
+            
+            if (chart) {
+                // Simulate data refresh with random variations
+                chart.data.datasets[0].data = chart.data.datasets[0].data.map(value => {
+                    return Math.floor(value * (0.9 + Math.random() * 0.2));
+                });
+                
+                chart.update('none');
+            }
+        }
+    </script>
+</body>
+</html>

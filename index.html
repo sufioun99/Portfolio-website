@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md Abu Sufioun Nasim - Data Analyst | Database Developer | Oracle APEX Developer | Mathematician</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">As Nasim</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#additional-skills" class="nav-link">Additional Skills</a></li>
+                <li><a href="#work" class="nav-link">Work</a></li>
+                <li><a href="#education" class="nav-link">Education & Certifications</a></li>
+                <li><a href="#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="template-switcher">
+                    <button class="template-btn active" data-template="template1" aria-label="Template 1">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button class="template-btn" data-template="template2" aria-label="Template 2">
+                        <i class="fas fa-layer-group"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <script>
+                // Check for saved theme preference on page load
+                document.addEventListener('DOMContentLoaded', function() {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme === 'light') {
+                        document.body.classList.add('light-mode');
+                        document.querySelector('#themeToggle i').classList.remove('fa-moon');
+                        document.querySelector('#themeToggle i').classList.add('fa-sun');
+                    }
+                });
+            </script>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-primary">Hi, I'm</span>
+                    <span class="title-secondary">MD ABU SUFIOUN NASIM</span>
+                </h1>
+                <p class="hero-subtitle">Data Analyst | Database Developer | Oracle APEX & Forms Developer | Report Developer | Mathematician</p>
+                <p class="hero-description">
+                    I transform complex data into actionable insights, design robust database systems, 
+                    build enterprise-level applications with Oracle APEX, and apply mathematical 
+                    principles to solve real-world problems.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#work" class="btn btn-primary">View My Work</a>
+                    <a href="Resume of Nasim.pdf" class="btn btn-secondary" target="_blank">Download CV</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-container">
+                    <img src="img/home-Profile.png" alt="As Nasim">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About Me</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="img/About-profile.png" alt="As Nasim">
+                </div>
+                <div class="about-text">
+                    <h3>Introduction</h3>
+                    <p>
+                        I'm MD ABU SUFIOUN NASIM, a passionate Data Analyst at Vita Architectural & Interior with a unique 
+                        combination of skills in data analysis, database development, Oracle APEX & Forms application development, 
+                        Oracle Reports, and mathematics. With a strong foundation in both technical and analytical disciplines, 
+                        I help organizations make data-driven decisions and build efficient systems.
+                    </p>
+                    <p>
+                        My objective is to build a long-term profession in technology-based sectors including Information 
+                        Technology, Data Science, and Mathematics, offering endless opportunities for career growth while 
+                        keeping up with cutting-edge technologies.
+                    </p>
+                    <div class="expertise">
+                        <h4>Areas of Expertise</h4>
+                        <div class="expertise-grid">
+                            <div class="expertise-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Data Analysis & Visualization</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-database"></i>
+                                <span>Database Design & Development</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-code"></i>
+                                <span>Oracle APEX Development</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-file-code"></i>
+                                <span>Oracle Forms Development</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Oracle Reports Development</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-calculator"></i>
+                                <span>Mathematical Modeling</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-brain"></i>
+                                <span>Problem Solving</span>
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>PL/SQL Programming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-chart-bar"></i> Data Analysis</h3>
+                    <div class="skill-list">
+                        <span>SQL & PL/SQL</span>
+                        <span>Data Warehousing</span>
+                        <span>Business Intelligence</span>
+                        <span>Statistical Analysis</span>
+                        <span>Data Visualization</span>
+                        <span>ETL Processes</span>
+                        <span>Python Programming</span>
+                        <span>Pandas</span>
+                        <span>NumPy</span>
+                        <span>Matplotlib</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-database"></i> Database Development</h3>
+                    <div class="skill-list">
+                        <span>Oracle Database</span>
+                        <span>SQL Server</span>
+                        <span>MySQL</span>
+                        <span>PostgreSQL</span>
+                        <span>Database Design</span>
+                        <span>Performance Tuning</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Oracle APEX</h3>
+                    <div class="skill-list">
+                        <span>APEX Application Development</span>
+                        <span>APEX Pages & Components</span>
+                        <span>APEX Workflows</span>
+                        <span>APEX Security</span>
+                        <span>RESTful Services</span>
+                        <span>APEX Integrations</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-file-code"></i> Oracle Forms</h3>
+                    <div class="skill-list">
+                        <span>Oracle Forms Development</span>
+                        <span>Form Builder</span>
+                        <span>PL/SQL in Forms</span>
+                        <span>Form Validation</span>
+                        <span>Form Security</span>
+                        <span>Form Deployments</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-file-alt"></i> Oracle Reports</h3>
+                    <div class="skill-list">
+                        <span>Oracle Reports Development</span>
+                        <span>Report Builder</span>
+                        <span>Data Grouping</span>
+                        <span>Report Formats</span>
+                        <span>Report Distribution</span>
+                        <span>Report Performance</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-calculator"></i> Mathematics</h3>
+                    <div class="skill-list">
+                        <span>Mathematical Modeling</span>
+                        <span>Statistics & Probability</span>
+                        <span>Linear Algebra</span>
+                        <span>Calculus</span>
+                        <span>Discrete Mathematics</span>
+                        <span>Optimization</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> AI & Machine Learning</h3>
+                    <div class="skill-list">
+                        <span>Data Science</span>
+                        <span>Machine Learning</span>
+                        <span>Deep Learning</span>
+                        <span>Natural Language Processing (NLP)</span>
+                        <span>Large Language Models (LLMs)</span>
+                        <span>AI Agents</span>
+                        <span>Neural Networks</span>
+                        <span>Computer Vision</span>
+                        <span>Predictive Modeling</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="work">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My Work</h2>
+                <div class="title-underline"></div>
+            </div>
+                <div class="projects-grid">
+                <div class="project-card" onclick="window.location.href='projects/inventory-management.html'">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Inventory Management System</h3>
+                        <p>
+                            A comprehensive inventory management system built with Oracle Forms, 
+                            featuring sales, purchases, stock management, and reporting.
+                        </p>
+                        <div class="project-tech">
+                            <span>Oracle Forms</span>
+                            <span>PL/SQL</span>
+                            <span>Oracle Database</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="window.location.href='projects/enterprise-reporting.html'">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Enterprise Reporting System</h3>
+                        <p>
+                            Comprehensive reporting system with Oracle Reports, featuring 
+                            financial reports, sales analytics, and inventory tracking.
+                        </p>
+                        <div class="project-tech">
+                            <span>Oracle Reports</span>
+                            <span>PL/SQL</span>
+                            <span>Oracle Database</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="window.location.href='projects/sales-distribution.html'">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-cash-register"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Sales & Distribution System</h3>
+                        <p>
+                            Complete sales and distribution management system built with Oracle Forms, 
+                            including order processing, invoicing, and delivery tracking.
+                        </p>
+                        <div class="project-tech">
+                            <span>Oracle Forms</span>
+                            <span>PL/SQL</span>
+                            <span>Oracle Reports</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="window.location.href='projects/data-analysis-dashboard.html'">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Data Analysis Dashboard</h3>
+                        <p>
+                            Interactive dashboard for data visualization and analysis, 
+                            featuring real-time updates and customizable reports.
+                        </p>
+                        <div class="project-tech">
+                            <span>JavaScript</span>
+                            <span>HTML/CSS</span>
+                            <span>Chart.js</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Robotics Control System</h3>
+                        <p>
+                            Control and monitoring system for robotics applications, 
+                            featuring real-time communication and visualization.
+                        </p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Arduino</span>
+                            <span>IoT</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="window.location.href='projects/enterprise-database-design.html'">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-database"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Enterprise Database Design</h3>
+                        <p>
+                            Scalable database architecture for large-scale enterprise applications, 
+                            featuring high availability and performance optimization.
+                        </p>
+                        <div class="project-tech">
+                            <span>Oracle Database</span>
+                            <span>SQL</span>
+                            <span>Database Architecture</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Business Intelligence System</h3>
+                        <p>
+                            BI solution for comprehensive business analytics, 
+                            featuring interactive reports and dashboards.
+                        </p>
+                        <div class="project-tech">
+                            <span>Oracle APEX</span>
+                            <span>SQL</span>
+                            <span>Data Visualization</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="window.location.href='projects/oracle-forms-project.html'">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Oracle Forms Enterprise Application</h3>
+                        <p>
+                            Comprehensive business application built with Oracle Forms 12c and PL/SQL, 
+                            featuring inventory management, sales processing, and financial reporting.
+                        </p>
+                        <div class="project-tech">
+                            <span>Oracle Forms 12c</span>
+                            <span>PL/SQL</span>
+                            <span>Oracle Database</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Mathematical Modeling Suite</h3>
+                        <p>
+                            Suite of mathematical modeling tools for optimization, 
+                            statistical analysis, and predictive modeling.
+                        </p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Mathematics</span>
+                            <span>Statistical Analysis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="achievements">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Achievements</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>14th National Undergraduate Mathematics Olympiad</h3>
+                    <p>Participation Certificate</p>
+                    <a href="14th National Undergraduate Mathematics Olympiad.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Science Fair</h3>
+                    <p>Participation Certificate</p>
+                    <a href="Science Fair.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>MIST Robolution</h3>
+                    <p>Robotics Competition Certificate</p>
+                    <a href="MIST ROBOLUTION.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Professional Certification</h3>
+                    <p>Oracle APEX Development</p>
+                    <a href="Certificate CP- 041.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <!-- Professional Certificates -->
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Data Analysis with ChatGPT</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/DATA Analysis ChatGPT-CC-79091DBA6C.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Deep Learning</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/Deep learning-CC-F3A962381D.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <h3>Advanced Excel</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/Excel-CC-500F39E6A0.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Generative AI</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/Generative AI-CC-FBA45BA809.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Data Science</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/Md Abu Sufioun Nasim-Data Science 27-C6749.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Power BI</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/PowerBI-CC-35713BF2E9.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Support Vector Machines (SVM)</h3>
+                    <p>Professional Certificate</p>
+                    <a href="Certificates of professional courses/SVM-CC-941EA48620 (1).pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>3rd National Mathematics Conference</h3>
+                    <p>Presenter Certificate</p>
+                    <a href="Certificates of professional courses/Marksheet-Data Science 27-A6965.pdf" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <!-- Academic Certificates -->
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>BSC Degree</h3>
+                    <p>Graduation Certificate</p>
+                    <a href="Certificates/BSC.png" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>BSC Transcript</h3>
+                    <p>Academic Transcript</p>
+                    <a href="Certificates/BSC transcript.jpg" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>HSC Degree</h3>
+                    <p>Higher Secondary Certificate</p>
+                    <a href="Certificates/HSC CERTIFICATE.jpg" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>HSC Transcript</h3>
+                    <p>Academic Transcript</p>
+                    <a href="Certificates/HSC TRANSCRIPT.jpg" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>SSC Degree</h3>
+                    <p>Secondary School Certificate</p>
+                    <a href="Certificates/SSC CERTIFICATE.jpg" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>SSC Transcript</h3>
+                    <p>Academic Transcript</p>
+                    <a href="Certificates/SSC TRASCRIPT.jpg" class="btn-link" target="_blank">
+                        View Certificate <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Skills Section -->
+    <section id="additional-skills" class="additional-skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Additional Skills</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="additional-skills-content">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3><i class="fas fa-desktop"></i> Operating Systems</h3>
+                        <div class="skill-list">
+                            <span>Windows 7</span>
+                            <span>Windows 8/8.1</span>
+                            <span>Windows 10/10 Pro</span>
+                            <span>Windows 11</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3><i class="fas fa-file-excel"></i> Microsoft Office</h3>
+                        <div class="skill-list">
+                            <span>Microsoft Word</span>
+                            <span>Microsoft Excel</span>
+                            <span>Data Analysis in Excel</span>
+                            <span>Spreadsheet Automation</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3><i class="fas fa-language"></i> Languages</h3>
+                        <div class="skill-list">
+                            <span>Bangla (Proficient)</span>
+                            <span>English (Proficient)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Certifications Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Education & Certifications</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="education-content">
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Bachelor of Science (B.Sc.)</h3>
+                        <p class="institution">National University</p>
+                        <p class="department">Mathematics</p>
+                        <p class="result">CGPA: 3.26 out of 4.00</p>
+                        <p class="year">2024</p>
+                    </div>
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>HSC</h3>
+                        <p class="institution">Govt. Bangla College, Dhaka</p>
+                        <p class="department">Science</p>
+                        <p class="result">GPA: 4.08 out of 5.00</p>
+                        <p class="year">2017</p>
+                    </div>
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <h3>SSC</h3>
+                        <p class="institution">Bashir Uddin Ideal School and College, Dhaka</p>
+                        <p class="department">Science</p>
+                        <p class="result">GPA: 4.22 out of 5.00</p>
+                        <p class="year">2015</p>
+                    </div>
+                </div>
+                <div class="certifications">
+                    <h3>Professional Certifications</h3>
+                    <div class="certificates-grid">
+                        <div class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>Data Science Certification Program</h4>
+                            <p class="institution">Ostad</p>
+                            <p class="credential">Credential ID: C6749</p>
+                            <p class="duration">Duration: 6 months</p>
+                            <a href="https://ostad.app/share/certificate/c6749-md-abu-sufioun-nasim" class="btn-link" target="_blank">
+                                View Certificate <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h4>IsDB-BISEW Diploma in Oracle Database and Application Development</h4>
+                            <p class="institution">Runner Cyberlink Limited</p>
+                            <p class="batch">Batch ID: DDD/RCLI/67/01</p>
+                            <p class="trainee">Trainee ID: 1291546</p>
+                            <p class="duration">Duration: 8 Months (6 Months Running)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>asnasim46@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+880 1303 289701</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Dhaka, Bangladesh</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/md-abu-sufioun-nasim-049b5b231/" class="social-link" title="LinkedIn" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/sufioun99" class="social-link" title="GitHub" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://web.facebook.com/abusufiounnasim" class="social-link" title="Facebook" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/your-twitter" class="social-link" title="Twitter" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 As Nasim. All rights reserved.</p>
+                <p class="footer-tagline">Data Analyst | Database Developer | Oracle APEX Developer | Mathematician</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

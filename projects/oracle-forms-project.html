@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Forms Project | MD ABU SUFIOUN NASIM</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Oracle Forms Project Specific Styles */
+        .oracle-forms-container {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            padding: 8rem 0 4rem;
+        }
+
+        .oracle-forms-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .oracle-forms-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .oracle-forms-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Project Overview */
+        .project-overview {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .overview-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .overview-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .overview-text p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .overview-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .overview-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .overview-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        /* Oracle Forms Demo */
+        .forms-demo {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .forms-demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .forms-demo-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .forms-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .form-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .form-preview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-preview.dark {
+            background: #2d3748;
+        }
+
+        .form-preview i {
+            font-size: 3rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .form-preview-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Technology Stack */
+        .tech-stack {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .tech-stack-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .tech-stack-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .tech-item i {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+        }
+
+        .tech-item:hover i {
+            color: white;
+        }
+
+        .tech-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Download Section Styles */
+        .download-section {
+            margin-bottom: 4rem;
+        }
+
+        .files-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .download-info {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .info-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .file-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .file-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            color: var(--accent-primary);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-size {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .file-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .download-btn:hover {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .folder-btn {
+            background: transparent;
+            color: var(--accent-primary);
+        }
+
+        .folder-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .individual-files {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .individual-files h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .file-list {
+            display: grid;
+            gap: 0.75rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            border-color: var(--accent-primary);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-type {
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 60px;
+        }
+
+        .file-title {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .file-type-badge {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .file-download {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .file-download:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .overview-content {
+                grid-template-columns: 1fr;
+            }
+
+            .forms-container {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .files-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .file-item {
+                flex-wrap: wrap;
+            }
+
+            .file-type {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">As Nasim</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../index.html#additional-skills" class="nav-link">Additional Skills</a></li>
+                <li><a href="../index.html#work" class="nav-link">Work</a></li>
+                <li><a href="../index.html#education" class="nav-link">Education & Certifications</a></li>
+                <li><a href="../index.html#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="template-switcher">
+                    <button class="template-btn active" data-template="template1" aria-label="Template 1">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button class="template-btn" data-template="template2" aria-label="Template 2">
+                        <i class="fas fa-layer-group"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Oracle Forms Project Section -->
+    <section class="oracle-forms-container">
+        <div class="container">
+            <div class="oracle-forms-header">
+                <h1>Oracle Forms Project</h1>
+                <p>Enterprise-level applications built with Oracle Forms and PL/SQL for business process automation</p>
+            </div>
+
+            <!-- Project Overview -->
+            <div class="project-overview">
+                <div class="overview-content">
+                    <div class="overview-text">
+                        <h3>Project Overview</h3>
+                        <p>
+                            This Oracle Forms project implements a comprehensive enterprise system for managing 
+                            business processes, featuring user-friendly interfaces, robust data validation, 
+                            and seamless integration with Oracle Database.
+                        </p>
+                        <p>
+                            The application includes modules for inventory management, sales processing, 
+                            financial reporting, and customer relationship management, all built using 
+                            Oracle Forms 12c and PL/SQL.
+                        </p>
+                        <ul class="overview-features">
+                            <li>User-friendly form-based interface</li>
+                            <li>Real-time data validation and processing</li>
+                            <li>Integration with Oracle Database</li>
+                            <li>Role-based security and access control</li>
+                            <li>Customizable reports and analytics</li>
+                            <li>Multi-user support and concurrency control</li>
+                        </ul>
+                    </div>
+                    <div class="overview-image">
+                        <div class="form-preview dark">
+                            <i class="fas fa-desktop"></i>
+                            <div class="form-preview-text">
+                                Oracle Forms Application<br>
+                                <small>Enterprise-level business application</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oracle Forms Demo -->
+            <div class="forms-demo">
+                <div class="forms-demo-header">
+                    <h2 class="forms-demo-title">Oracle Forms Modules</h2>
+                </div>
+                <div class="forms-container">
+                    <div class="form-card">
+                        <div class="form-title">Main Menu Form</div>
+                        <div class="form-preview dark">
+                            <i class="fas fa-th-large"></i>
+                            <div class="form-preview-text">
+                                Application Dashboard<br>
+                                <small>Centralized navigation and menu system</small>
+                            </div>
+                        </div>
+                        <p class="feature-description">
+                            The main menu form provides centralized navigation to all application modules, 
+                            with role-based access control and real-time status indicators.
+                        </p>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="form-title">Inventory Management</div>
+                        <div class="form-preview dark">
+                            <i class="fas fa-box"></i>
+                            <div class="form-preview-text">
+                                Stock Control System<br>
+                                <small>Track inventory levels and movements</small>
+                            </div>
+                        </div>
+                        <p class="feature-description">
+                            Manage stock levels, track inventory movements, and generate reports on 
+                            stock status, reorder points, and stock valuation.
+                        </p>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="form-title">Sales Order Entry</div>
+                        <div class="form-preview dark">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="form-preview-text">
+                                Order Processing<br>
+                                <small>Create and manage sales orders</small>
+                            </div>
+                        </div>
+                        <p class="feature-description">
+                            Process sales orders, manage customer information, and generate invoices 
+                            with integrated pricing and discount management.
+                        </p>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="form-title">Financial Reports</div>
+                        <div class="form-preview dark">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <div class="form-preview-text">
+                                Financial Analytics<br>
+                                <small>Generate financial statements and reports</small>
+                            </div>
+                        </div>
+                        <p class="feature-description">
+                            Generate comprehensive financial reports including income statements, 
+                            balance sheets, and cash flow statements.
+                        </p>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="form-title">Customer Management</div>
+                        <div class="form-preview dark">
+                            <i class="fas fa-users"></i>
+                            <div class="form-preview-text">
+                                CRM System<br>
+                                <small>Manage customer information and interactions</small>
+                            </div>
+                        </div>
+                        <p class="feature-description">
+                            Maintain customer profiles, track interactions, and manage customer 
+                            relationships with integrated contact management.
+                        </p>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="form-title">System Administration</div>
+                        <div class="form-preview dark">
+                            <i class="fas fa-cog"></i>
+                            <div class="form-preview-text">
+                                System Configuration<br>
+                                <small>Manage system settings and users</small>
+                            </div>
+                        </div>
+                        <p class="feature-description">
+                            Configure system parameters, manage user accounts, and maintain security 
+                            settings with the system administration module.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features-section">
+                <div class="section-header">
+                    <h2 class="section-title">Key Features</h2>
+                    <div class="title-underline"></div>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-title">Security & Authentication</div>
+                        <div class="feature-description">
+                            Role-based access control, user authentication, and data encryption 
+                            ensure the highest level of security.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="feature-title">Real-time Processing</div>
+                        <div class="feature-description">
+                            Instant data validation, real-time updates, and seamless integration 
+                            with Oracle Database.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-title">Reporting & Analytics</div>
+                        <div class="feature-description">
+                            Comprehensive reporting capabilities with customizable reports, 
+                            charts, and analytics dashboards.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div class="feature-title">Workflow Management</div>
+                        <div class="feature-description">
+                            Configure business workflows, approval processes, and automated 
+                            notifications.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-title">Responsive Design</div>
+                        <div class="feature-description">
+                            Optimized for desktops, laptops, and tablets with adaptive layouts 
+                            and responsive design.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="feature-title">Data Management</div>
+                        <div class="feature-description">
+                            Advanced data management features including data import/export, 
+                            backup/restore, and data migration.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Section -->
+            <div class="download-section">
+                <div class="section-header">
+                    <h2 class="section-title">Download Files</h2>
+                    <div class="title-underline"></div>
+                </div>
+                
+                <div class="files-container">
+                    <div class="download-info">
+                        <p class="info-text">
+                            Below you can download all the Oracle Forms source files and compiled modules for this project.
+                            The files include both the source .fmb files and compiled .fmx files ready for deployment.
+                        </p>
+                    </div>
+
+                    <div class="files-grid">
+                        <div class="file-card">
+                            <div class="file-header">
+                                <i class="fas fa-file-code file-icon"></i>
+                                <div class="file-info">
+                                    <div class="file-name">MSP_Script.sql</div>
+                                    <div class="file-size">SQL Script</div>
+                                </div>
+                            </div>
+                            <div class="file-description">
+                                Database script for creating tables, views, and stored procedures used by the MSP system.
+                            </div>
+                            <a href="../../oracle-forms-files/MSP_Script.sql" class="btn download-btn" download>
+                                <i class="fas fa-download"></i> Download SQL Script
+                            </a>
+                        </div>
+
+                        <div class="file-card">
+                            <div class="file-header">
+                                <i class="fas fa-folder-open file-icon"></i>
+                                <div class="file-info">
+                                    <div class="file-name">Forms Source Files</div>
+                                    <div class="file-size">12 files (.fmb)</div>
+                                </div>
+                            </div>
+                            <div class="file-description">
+                                Source files for all Oracle Forms modules, including the main menu, stock, sales, and reporting forms.
+                            </div>
+                            <a href="#" class="btn download-btn folder-btn">
+                                <i class="fas fa-download"></i> Download All Source Files
+                            </a>
+                        </div>
+
+                        <div class="file-card">
+                            <div class="file-header">
+                                <i class="fas fa-cogs file-icon"></i>
+                                <div class="file-info">
+                                    <div class="file-name">Compiled Modules</div>
+                                    <div class="file-size">11 files (.fmx)</div>
+                                </div>
+                            </div>
+                            <div class="file-description">
+                                Compiled Oracle Forms modules ready for deployment to Oracle Application Server or WebLogic.
+                            </div>
+                            <a href="#" class="btn download-btn folder-btn">
+                                <i class="fas fa-download"></i> Download Compiled Modules
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="individual-files">
+                        <h3>Individual Forms Files</h3>
+                        <div class="file-list">
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">HOMEPAGE.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../../oracle-forms-files/HOMEPAGE.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">login_MSP.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/login_MSP.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">STOCK.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/STOCK.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">SALES_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/SALES_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">ORDER_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/ORDER_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">RECEIVE_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/RECEIVE_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">RETURN_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/RETURN_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">SALES_RETURN_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/SALES_RETURN_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">Expense_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/Expense_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">SERVICE_MD.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/SERVICE_MD.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">damage.fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/damage.fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            <div class="file-item">
+                                <span class="file-type">Form</span>
+                                <span class="file-title">SUPPLIER_PAYMENT .fmb</span>
+                                <span class="file-type-badge">.fmb</span>
+                                <a href="../oracle-forms-files/SUPPLIER_PAYMENT .fmb" class="file-download" download>
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Stack -->
+            <div class="tech-stack">
+                <div class="tech-stack-header">
+                    <h2 class="tech-stack-title">Technology Stack</h2>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <span class="tech-name">Oracle Database</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-code"></i>
+                        <span class="tech-name">Oracle Forms 12c</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-code-branch"></i>
+                        <span class="tech-name">PL/SQL</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-server"></i>
+                        <span class="tech-name">Oracle Application Server</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="tech-name">Oracle Reports</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="tech-name">Oracle WebLogic</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-cloud"></i>
+                        <span class="tech-name">Oracle Cloud Infrastructure</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="tech-name">Oracle BI Publisher</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Oracle Forms Project Specific Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme and template initialization
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.querySelector('#themeToggle i').classList.remove('fa-moon');
+                document.querySelector('#themeToggle i').classList.add('fa-sun');
+            }
+
+            const savedTemplate = localStorage.getItem('template');
+            if (savedTemplate === 'template2') {
+                document.body.classList.add('template2');
+                document.querySelector('[data-template="template1"]').classList.remove('active');
+                document.querySelector('[data-template="template2"]').classList.add('active');
+            }
+
+            console.log('Oracle Forms Project script loaded');
+        });
+    </script>
+</body>
+</html>

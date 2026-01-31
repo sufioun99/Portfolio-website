@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Database Design | MD ABU SUFIOUN NASIM</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Enterprise Database Design Specific Styles */
+        .database-container {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            padding: 8rem 0 4rem;
+        }
+
+        .database-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .database-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .database-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .architecture-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architecture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .architecture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .architecture-icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .architecture-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .architecture-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .architecture-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .architecture-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .architecture-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        /* Database Diagrams */
+        .diagrams-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .diagrams-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .diagrams-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .diagrams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .diagram-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .diagram-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+
+        .diagram-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .diagram-container {
+            position: relative;
+            height: 400px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .er-diagram {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .entity {
+            position: absolute;
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            line-height: 1.2;
+        }
+
+        .relationship {
+            position: absolute;
+            background: var(--accent-secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        .connection {
+            position: absolute;
+            background: var(--text-secondary);
+            height: 2px;
+            transform-origin: left center;
+            z-index: 1;
+        }
+
+        /* Sample Database */
+        .sample-db-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .sample-db-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .sample-db-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .sample-db-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .table-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .table-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+
+        .table-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .table-columns {
+            list-style: none;
+            padding: 0;
+        }
+
+        .table-column {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-column:last-child {
+            border-bottom: none;
+        }
+
+        .column-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .column-type {
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+        }
+
+        .primary-key {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .primary-key::before {
+            content: 'PK';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .foreign-key {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .foreign-key::before {
+            content: 'FK';
+            position: absolute;
+            left: 0;
+            color: var(--accent-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Query Section */
+        .query-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .query-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .query-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .query-editor {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .query-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .query-input:focus {
+            outline: none;
+        }
+
+        .query-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .query-result {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .result-table th {
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--bg-primary);
+        }
+
+        .result-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .result-table tbody tr:hover {
+            background-color: var(--bg-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .database-header h1 {
+                font-size: 2rem;
+            }
+
+            .database-header p {
+                font-size: 1rem;
+            }
+
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .diagrams-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sample-db-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .query-actions {
+                flex-direction: column;
+            }
+
+            .result-table {
+                font-size: 0.85rem;
+            }
+
+            .result-table th,
+            .result-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">As Nasim</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../index.html#additional-skills" class="nav-link">Additional Skills</a></li>
+                <li><a href="../index.html#work" class="nav-link">Work</a></li>
+                <li><a href="../index.html#education" class="nav-link">Education & Certifications</a></li>
+                <li><a href="../index.html#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="template-switcher">
+                    <button class="template-btn active" data-template="template1" aria-label="Template 1">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button class="template-btn" data-template="template2" aria-label="Template 2">
+                        <i class="fas fa-layer-group"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enterprise Database Design Section -->
+    <section class="database-container">
+        <div class="container">
+            <div class="database-header">
+                <h1>Enterprise Database Design</h1>
+                <p>Scalable database architecture for large-scale enterprise applications with high availability and performance optimization</p>
+            </div>
+
+            <!-- Architecture Types -->
+            <div class="architecture-grid">
+                <div class="architecture-card">
+                    <div class="architecture-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="architecture-title">Tiered Architecture</div>
+                    <div class="architecture-description">
+                        Multi-tiered database architecture providing separation of concerns between presentation, business logic, and data layers
+                    </div>
+                    <ul class="architecture-features">
+                        <li>3-tier architecture with web, application, and database layers</li>
+                        <li>Scalable and maintainable design</li>
+                        <li>Improved security with layer separation</li>
+                        <li>Load balancing across application servers</li>
+                    </ul>
+                </div>
+
+                <div class="architecture-card">
+                    <div class="architecture-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="architecture-title">Data Warehouse</div>
+                    <div class="architecture-description">
+                        Centralized repository for reporting and analytics with historical data storage and retrieval
+                    </div>
+                    <ul class="architecture-features">
+                        <li>Star schema design for efficient querying</li>
+                        <li>ETL processes for data integration</li>
+                        <li>OLAP capabilities for analytics</li>
+                        <li>Historical data retention and archiving</li>
+                    </ul>
+                </div>
+
+                <div class="architecture-card">
+                    <div class="architecture-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="architecture-title">Replication Architecture</div>
+                    <div class="architecture-description">
+                        High availability architecture with data replication across multiple servers and locations
+                    </div>
+                    <ul class="architecture-features">
+                        <li>Master-slave replication for read scalability</li>
+                        <li>Multi-master replication for write scalability</li>
+                        <li>Automatic failover and recovery</li>
+                        <li>Geographically distributed deployments</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Database Diagrams -->
+            <div class="diagrams-container">
+                <div class="diagrams-header">
+                    <h2 class="diagrams-title">Database Diagrams</h2>
+                </div>
+                <div class="diagrams-grid">
+                    <div class="diagram-card">
+                        <div class="diagram-title">ER Diagram - Customer Orders</div>
+                        <div class="diagram-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' width='100%' height='100%'%3E%3Crect x='50' y='50' width='100' height='80' fill='%23667eea' rx='5'/%3E%3Ctext x='100' y='70' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3ECustomer%3C/text%3E%3Ctext x='100' y='85' text-anchor='middle' fill='white' font-size='10'%3Ecustomer_id (PK)%3C/text%3E%3Ctext x='100' y='98' text-anchor='middle' fill='white' font-size='10'%3Efirst_name%3C/text%3E%3Ctext x='100' y='111' text-anchor='middle' fill='white' font-size='10'%3Elast_name%3C/text%3E%3Ctext x='100' y='124' text-anchor='middle' fill='white' font-size='10'%3Eemail%3C/text%3E%3Crect x='250' y='50' width='100' height='80' fill='%23667eea' rx='5'/%3E%3Ctext x='300' y='70' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EProduct%3C/text%3E%3Ctext x='300' y='85' text-anchor='middle' fill='white' font-size='10'%3Eproduct_id (PK)%3C/text%3E%3Ctext x='300' y='98' text-anchor='middle' fill='white' font-size='10'%3Eproduct_name%3C/text%3E%3Ctext x='300' y='111' text-anchor='middle' fill='white' font-size='10'%3Ecategory%3C/text%3E%3Ctext x='300' y='124' text-anchor='middle' fill='white' font-size='10'%3Eprice%3C/text%3E%3Crect x='150' y='150' width='100' height='70' fill='%23667eea' rx='5'/%3E%3Ctext x='200' y='170' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EOrder%3C/text%3E%3Ctext x='200' y='183' text-anchor='middle' fill='white' font-size='10'%3Eorder_id (PK)%3C/text%3E%3Ctext x='200' y='196' text-anchor='middle' fill='white' font-size='10'%3Ecustomer_id (FK)%3C/text%3E%3Ctext x='200' y='209' text-anchor='middle' fill='white' font-size='10'%3Eorder_date%3C/text%3E%3Crect x='150' y='230' width='100' height='60' fill='%23667eea' rx='5'/%3E%3Ctext x='200' y='248' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EOrderItem%3C/text%3E%3Ctext x='200' y='261' text-anchor='middle' fill='white' font-size='10'%3Eorder_item_id (PK)%3C/text%3E%3Ctext x='200' y='274' text-anchor='middle' fill='white' font-size='10'%3Eorder_id (FK)%3C/text%3E%3Cline x1='150' y1='150' x2='150' y2='130' stroke='%23a0a0a0' stroke-width='2'/%3E%3Cline x1='150' y1='130' x2='100' y2='130' stroke='%23a0a0a0' stroke-width='2'/%3E%3Ctext x='125' y='125' text-anchor='middle' fill='%23a0a0a0' font-size='10'%3EPlaces%3C/text%3E%3Cline x1='200' y1='150' x2='200' y2='130' stroke='%23a0a0a0' stroke-width='2'/%3E%3Cline x1='200' y1='130' x2='250' y2='130' stroke='%23a0a0a0' stroke-width='2'/%3E%3Ctext x='225' y='125' text-anchor='middle' fill='%23a0a0a0' font-size='10'%3EContains%3C/text%3E%3Cline x1='200' y1='220' x2='200' y2='230' stroke='%23a0a0a0' stroke-width='2'/%3E%3Ctext x='200' y='225' text-anchor='middle' fill='%23a0a0a0' font-size='10'%3EHas%3C/text%3E%3C/svg%3E" alt="ER Diagram - Customer Orders" style="width: 100%; height: 100%; object-fit: contain;" />
+                        </div>
+                    </div>
+
+                    <div class="diagram-card">
+                        <div class="diagram-title">Schema Diagram - Product Catalog</div>
+                        <div class="diagram-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' width='100%' height='100%'%3E%3Crect x='50' y='50' width='90' height='70' fill='%23667eea' rx='5'/%3E%3Ctext x='95' y='68' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3ECategory%3C/text%3E%3Ctext x='95' y='82' text-anchor='middle' fill='white' font-size='9'%3Ecategory_id (PK)%3C/text%3E%3Ctext x='95' y='95' text-anchor='middle' fill='white' font-size='9'%3Ecategory_name%3C/text%3E%3Ctext x='95' y='108' text-anchor='middle' fill='white' font-size='9'%3Edescription%3C/text%3E%3Crect x='260' y='50' width='90' height='70' fill='%23667eea' rx='5'/%3E%3Ctext x='305' y='68' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3ESupplier%3C/text%3E%3Ctext x='305' y='82' text-anchor='middle' fill='white' font-size='9'%3Esupplier_id (PK)%3C/text%3E%3Ctext x='305' y='95' text-anchor='middle' fill='white' font-size='9'%3Esupplier_name%3C/text%3E%3Ctext x='305' y='108' text-anchor='middle' fill='white' font-size='9'%3Econtact%3C/text%3E%3Crect x='150' y='140' width='100' height='70' fill='%23667eea' rx='5'/%3E%3Ctext x='200' y='160' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3EProduct%3C/text%3E%3Ctext x='200' y='174' text-anchor='middle' fill='white' font-size='9'%3Eproduct_id (PK)%3C/text%3E%3Ctext x='200' y='187' text-anchor='middle' fill='white' font-size='9'%3Eproduct_name%3C/text%3E%3Ctext x='200' y='200' text-anchor='middle' fill='white' font-size='9'%3Ecategory_id (FK)%3C/text%3E%3Crect x='150' y='220' width='100' height='60' fill='%23667eea' rx='5'/%3E%3Ctext x='200' y='238' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3EProductAttribute%3C/text%3E%3Ctext x='200' y='251' text-anchor='middle' fill='white' font-size='9'%3Eattribute_id (PK)%3C/text%3E%3Ctext x='200' y='264' text-anchor='middle' fill='white' font-size='9'%3Eproduct_id (FK)%3C/text%3E%3Cline x1='140' y1='140' x2='140' y2='120' stroke='%23a0a0a0' stroke-width='2'/%3E%3Cline x1='140' y1='120' x2='95' y2='120' stroke='%23a0a0a0' stroke-width='2'/%3E%3Ctext x='117' y='115' text-anchor='middle' fill='%23a0a0a0' font-size='9'%3EBelongs To%3C/text%3E%3Cline x1='200' y1='140' x2='200' y2='120' stroke='%23a0a0a0' stroke-width='2'/%3E%3Cline x1='200' y1='120' x2='260' y2='120' stroke='%23a0a0a0' stroke-width='2'/%3E%3Ctext x='230' y='115' text-anchor='middle' fill='%23a0a0a0' font-size='9'%3ESupplies%3C/text%3E%3Cline x1='200' y1='210' x2='200' y2='220' stroke='%23a0a0a0' stroke-width='2'/%3E%3Ctext x='200' y='215' text-anchor='middle' fill='%23a0a0a0' font-size='9'%3EHas Attributes%3C/text%3E%3C/svg%3E" alt="Schema Diagram - Product Catalog" style="width: 100%; height: 100%; object-fit: contain;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Database -->
+            <div class="sample-db-container">
+                <div class="sample-db-header">
+                    <h2 class="sample-db-title">Sample Database Schema</h2>
+                </div>
+                <div class="sample-db-grid">
+                    <div class="table-card">
+                        <div class="table-name">customers</div>
+                        <ul class="table-columns">
+                            <li class="table-column primary-key">
+                                <span class="column-name">customer_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">first_name</span>
+                                <span class="column-type">VARCHAR(50)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">last_name</span>
+                                <span class="column-type">VARCHAR(50)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">email</span>
+                                <span class="column-type">VARCHAR(100)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">phone</span>
+                                <span class="column-type">VARCHAR(20)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">address</span>
+                                <span class="column-type">VARCHAR(255)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-name">products</div>
+                        <ul class="table-columns">
+                            <li class="table-column primary-key">
+                                <span class="column-name">product_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">product_name</span>
+                                <span class="column-type">VARCHAR(100)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">category</span>
+                                <span class="column-type">VARCHAR(50)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">price</span>
+                                <span class="column-type">DECIMAL(10,2)</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">stock</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-name">orders</div>
+                        <ul class="table-columns">
+                            <li class="table-column primary-key">
+                                <span class="column-name">order_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column foreign-key">
+                                <span class="column-name">customer_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">order_date</span>
+                                <span class="column-type">DATE</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">total_amount</span>
+                                <span class="column-type">DECIMAL(10,2)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-name">order_items</div>
+                        <ul class="table-columns">
+                            <li class="table-column primary-key">
+                                <span class="column-name">order_item_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column foreign-key">
+                                <span class="column-name">order_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column foreign-key">
+                                <span class="column-name">product_id</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">quantity</span>
+                                <span class="column-type">INT</span>
+                            </li>
+                            <li class="table-column">
+                                <span class="column-name">unit_price</span>
+                                <span class="column-type">DECIMAL(10,2)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Query Section -->
+            <div class="query-container">
+                <div class="query-header">
+                    <h2 class="query-title">SQL Query Editor</h2>
+                </div>
+                <div class="query-editor">
+                    <textarea class="query-input" id="sqlQuery" placeholder="Enter your SQL query here...">
+SELECT 
+    c.customer_id,
+    CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
+    c.email,
+    COUNT(o.order_id) AS total_orders,
+    SUM(o.total_amount) AS total_spent,
+    MAX(o.order_date) AS last_order_date
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name, c.email
+ORDER BY total_spent DESC
+LIMIT 10;
+                    </textarea>
+                </div>
+                <div class="query-actions">
+                    <button class="btn btn-primary" id="executeQuery">
+                        <i class="fas fa-play"></i> Execute Query
+                    </button>
+                    <button class="btn btn-secondary" id="clearQuery">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                </div>
+                <div class="query-result" id="queryResult">
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th>customer_id</th>
+                                <th>customer_name</th>
+                                <th>email</th>
+                                <th>total_orders</th>
+                                <th>total_spent</th>
+                                <th>last_order_date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queryResultBody">
+                            <tr>
+                                <td>1</td>
+                                <td>John Smith</td>
+                                <td>john@example.com</td>
+                                <td>5</td>
+                                <td>12450.00</td>
+                                <td>2025-01-15</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jane Doe</td>
+                                <td>jane@example.com</td>
+                                <td>3</td>
+                                <td>9850.00</td>
+                                <td>2025-01-16</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Michael Johnson</td>
+                                <td>michael@example.com</td>
+                                <td>7</td>
+                                <td>15600.00</td>
+                                <td>2025-01-17</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Sarah Williams</td>
+                                <td>sarah@example.com</td>
+                                <td>2</td>
+                                <td>4520.00</td>
+                                <td>2025-01-18</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>David Brown</td>
+                                <td>david@example.com</td>
+                                <td>4</td>
+                                <td>8950.00</td>
+                                <td>2025-01-19</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Enterprise Database Design Specific Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme and template initialization
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.querySelector('#themeToggle i').classList.remove('fa-moon');
+                document.querySelector('#themeToggle i').classList.add('fa-sun');
+            }
+
+            const savedTemplate = localStorage.getItem('template');
+            if (savedTemplate === 'template2') {
+                document.body.classList.add('template2');
+                document.querySelector('[data-template="template1"]').classList.remove('active');
+                document.querySelector('[data-template="template2"]').classList.add('active');
+            }
+
+            // Draw connections between entities in ER diagrams
+            function drawConnections() {
+                // First diagram: Customer Orders
+                const diagram1 = document.querySelector('.diagram-card:nth-child(1) .er-diagram');
+                if (diagram1) {
+                    // Customer to Order
+                    drawConnection(diagram1, 
+                        diagram1.querySelector('.entity:nth-child(1)'), 
+                        diagram1.querySelector('.entity:nth-child(3)'));
+                    // Product to Order
+                    drawConnection(diagram1, 
+                        diagram1.querySelector('.entity:nth-child(2)'), 
+                        diagram1.querySelector('.entity:nth-child(3)'));
+                    // Order to OrderItem
+                    drawConnection(diagram1, 
+                        diagram1.querySelector('.entity:nth-child(3)'), 
+                        diagram1.querySelector('.entity:nth-child(4)'));
+                    // Product to OrderItem
+                    drawConnection(diagram1, 
+                        diagram1.querySelector('.entity:nth-child(2)'), 
+                        diagram1.querySelector('.entity:nth-child(4)'));
+                }
+
+                // Second diagram: Product Catalog
+                const diagram2 = document.querySelector('.diagram-card:nth-child(2) .er-diagram');
+                if (diagram2) {
+                    // Category to Product
+                    drawConnection(diagram2, 
+                        diagram2.querySelector('.entity:nth-child(1)'), 
+                        diagram2.querySelector('.entity:nth-child(3)'));
+                    // Supplier to Product
+                    drawConnection(diagram2, 
+                        diagram2.querySelector('.entity:nth-child(2)'), 
+                        diagram2.querySelector('.entity:nth-child(3)'));
+                    // Product to ProductAttribute
+                    drawConnection(diagram2, 
+                        diagram2.querySelector('.entity:nth-child(3)'), 
+                        diagram2.querySelector('.entity:nth-child(4)'));
+                }
+            }
+
+            function drawConnection(diagram, entity1, entity2) {
+                if (!entity1 || !entity2) return;
+
+                const rect1 = entity1.getBoundingClientRect();
+                const rect2 = entity2.getBoundingClientRect();
+                const diagramRect = diagram.getBoundingClientRect();
+
+                const x1 = rect1.left - diagramRect.left + rect1.width / 2;
+                const y1 = rect1.top - diagramRect.top + rect1.height / 2;
+                const x2 = rect2.left - diagramRect.left + rect2.width / 2;
+                const y2 = rect2.top - diagramRect.top + rect2.height / 2;
+
+                const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                const angle = Math.atan2(y2 - y1, x2 - x1);
+
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                connection.style.left = x1 + 'px';
+                connection.style.top = y1 + 'px';
+                connection.style.width = distance + 'px';
+                connection.style.transform = `rotate(${angle}rad)`;
+                diagram.appendChild(connection);
+            }
+
+            // Draw connections after page load
+            drawConnections();
+
+            // Redraw connections on window resize
+            window.addEventListener('resize', drawConnections);
+
+            // Query editor functionality
+            const executeQueryBtn = document.getElementById('executeQuery');
+            const clearQueryBtn = document.getElementById('clearQuery');
+            const sqlQueryInput = document.getElementById('sqlQuery');
+            const queryResultBody = document.getElementById('queryResultBody');
+
+            executeQueryBtn.addEventListener('click', function() {
+                // Simulate query execution
+                executeQueryBtn.disabled = true;
+                executeQueryBtn.innerHTML = '<span class="loading"></span> Executing...';
+
+                setTimeout(() => {
+                    // Simulate successful execution with new data
+                    const newData = [
+                        [1, 'John Smith', 'john@example.com', 5, '12450.00', '2025-01-15'],
+                        [2, 'Jane Doe', 'jane@example.com', 3, '9850.00', '2025-01-16'],
+                        [3, 'Michael Johnson', 'michael@example.com', 7, '15600.00', '2025-01-17'],
+                        [4, 'Sarah Williams', 'sarah@example.com', 2, '4520.00', '2025-01-18'],
+                        [5, 'David Brown', 'david@example.com', 4, '8950.00', '2025-01-19']
+                    ];
+
+                    queryResultBody.innerHTML = '';
+                    newData.forEach(row => {
+                        const tr = document.createElement('tr');
+                        row.forEach(cell => {
+                            const td = document.createElement('td');
+                            td.textContent = cell;
+                            tr.appendChild(td);
+                        });
+                        queryResultBody.appendChild(tr);
+                    });
+
+                    executeQueryBtn.disabled = false;
+                    executeQueryBtn.innerHTML = '<i class="fas fa-play"></i> Execute Query';
+
+                    // Show success notification
+                    showNotification('Query executed successfully', 'success');
+                }, 1500);
+            });
+
+            clearQueryBtn.addEventListener('click', function() {
+                sqlQueryInput.value = '';
+            });
+
+            console.log('Enterprise Database Design script loaded');
+        });
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('active');
+            }, 100);
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('active');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

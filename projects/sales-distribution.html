@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales & Distribution System | MD ABU SUFIOUN NASIM</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sales & Distribution System Specific Styles */
+        .sales-container {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            padding: 8rem 0 4rem;
+        }
+
+        .sales-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .sales-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .sales-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Orders Table */
+        .orders-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 300px;
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        thead {
+            background: var(--bg-secondary);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255, 200, 0, 0.2);
+            color: #ffc800;
+        }
+
+        .status-processing {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+
+        .status-shipped {
+            background: rgba(102, 255, 102, 0.2);
+            color: #00ff00;
+        }
+
+        .status-delivered {
+            background: rgba(0, 200, 100, 0.2);
+            color: #00c864;
+        }
+
+        .status-cancelled {
+            background: rgba(255, 102, 102, 0.2);
+            color: #ff6666;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff3742;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+        }
+
+        /* Recent Activities */
+        .activities-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sales-header h1 {
+                font-size: 2rem;
+            }
+
+            .sales-header p {
+                font-size: 1rem;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">As Nasim</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../index.html#additional-skills" class="nav-link">Additional Skills</a></li>
+                <li><a href="../index.html#work" class="nav-link">Work</a></li>
+                <li><a href="../index.html#education" class="nav-link">Education & Certifications</a></li>
+                <li><a href="../index.html#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="template-switcher">
+                    <button class="template-btn active" data-template="template1" aria-label="Template 1">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button class="template-btn" data-template="template2" aria-label="Template 2">
+                        <i class="fas fa-layer-group"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sales & Distribution System Section -->
+    <section class="sales-container">
+        <div class="container">
+            <div class="sales-header">
+                <h1>Sales & Distribution System</h1>
+                <p>Complete sales and distribution management system with order processing, invoicing, and delivery tracking</p>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-value">1,284</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-value">$89,650</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-value">342</div>
+                    <div class="stat-label">Pending Deliveries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value">12.5%</div>
+                    <div class="stat-label">Growth Rate</div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Orders Table -->
+                <div class="orders-container">
+                    <div class="table-header">
+                        <h2>Recent Orders</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchOrders" placeholder="Search orders...">
+                        </div>
+                    </div>
+                    <table id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ORD-001</td>
+                                <td>ABC Electronics</td>
+                                <td>2025-01-15</td>
+                                <td>$2,450.00</td>
+                                <td><span class="status-delivered">Delivered</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary view-order" data-order="ORD-001">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-002</td>
+                                <td>XYZ Retail</td>
+                                <td>2025-01-16</td>
+                                <td>$1,890.00</td>
+                                <td><span class="status-shipped">Shipped</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary view-order" data-order="ORD-002">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-003</td>
+                                <td>Global Tech</td>
+                                <td>2025-01-17</td>
+                                <td>$3,200.00</td>
+                                <td><span class="status-processing">Processing</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary view-order" data-order="ORD-003">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-004</td>
+                                <td>Prime Solutions</td>
+                                <td>2025-01-18</td>
+                                <td>$1,560.00</td>
+                                <td><span class="status-pending">Pending</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary view-order" data-order="ORD-004">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-005</td>
+                                <td>Sunrise Industries</td>
+                                <td>2025-01-19</td>
+                                <td>$2,890.00</td>
+                                <td><span class="status-processing">Processing</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary view-order" data-order="ORD-005">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="activities-container">
+                    <h2>Recent Activities</h2>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">New order placed</div>
+                            <div class="activity-time">ORD-005 - 10 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Order shipped</div>
+                            <div class="activity-time">ORD-002 - 1 hour ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Order delivered</div>
+                            <div class="activity-time">ORD-001 - 3 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Payment received</div>
+                            <div class="activity-time">ORD-003 - 5 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Stock updated</div>
+                            <div class="activity-time">Product #123 - 8 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- View Order Modal -->
+    <div class="modal" id="viewOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="modal-close" id="closeViewOrderModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="orderDetails">
+                <div class="form-group">
+                    <label>Order ID:</label>
+                    <div id="modalOrderId">ORD-001</div>
+                </div>
+                <div class="form-group">
+                    <label>Customer:</label>
+                    <div id="modalCustomer">ABC Electronics</div>
+                </div>
+                <div class="form-group">
+                    <label>Order Date:</label>
+                    <div id="modalOrderDate">2025-01-15</div>
+                </div>
+                <div class="form-group">
+                    <label>Total Amount:</label>
+                    <div id="modalTotal">$2,450.00</div>
+                </div>
+                <div class="form-group">
+                    <label>Status:</label>
+                    <div id="modalStatus"><span class="status-delivered">Delivered</span></div>
+                </div>
+                <div class="form-group">
+                    <label>Items:</label>
+                    <div id="modalItems">
+                        <div>Product A - 2 units</div>
+                        <div>Product B - 1 unit</div>
+                        <div>Product C - 3 units</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closeOrderModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Sales & Distribution System Specific Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme and template initialization
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.querySelector('#themeToggle i').classList.remove('fa-moon');
+                document.querySelector('#themeToggle i').classList.add('fa-sun');
+            }
+
+            const savedTemplate = localStorage.getItem('template');
+            if (savedTemplate === 'template2') {
+                document.body.classList.add('template2');
+                document.querySelector('[data-template="template1"]').classList.remove('active');
+                document.querySelector('[data-template="template2"]').classList.add('active');
+            }
+
+            // Search functionality
+            const searchInput = document.getElementById('searchOrders');
+            const ordersTable = document.getElementById('ordersTable');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = ordersTable.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            // View order modal
+            const viewOrderButtons = document.querySelectorAll('.view-order');
+            const viewOrderModal = document.getElementById('viewOrderModal');
+            const closeViewOrderModal = document.getElementById('closeViewOrderModal');
+            const closeOrderModalBtn = document.getElementById('closeOrderModalBtn');
+
+            viewOrderButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.dataset.order;
+                    // In a real application, you would fetch order details from a database
+                    viewOrderModal.classList.add('active');
+                });
+            });
+
+            closeViewOrderModal.addEventListener('click', function() {
+                viewOrderModal.classList.remove('active');
+            });
+
+            closeOrderModalBtn.addEventListener('click', function() {
+                viewOrderModal.classList.remove('active');
+            });
+
+            viewOrderModal.addEventListener('click', function(e) {
+                if (e.target === viewOrderModal) {
+                    viewOrderModal.classList.remove('active');
+                }
+            });
+
+            console.log('Sales & Distribution System script loaded');
+        });
+    </script>
+</body>
+</html>
