@@ -2,14 +2,42 @@
 
 console.log('Portfolio script loaded');
 
+// Performance optimization: Debounce function
+function debounce(func, wait = 16) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Performance optimization: Throttle function
+function throttle(func, limit = 16) {
+    let inThrottle;
+    return function executedFunction(...args) {
+        if (!inThrottle) {
+            func(...args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
 // DOM Content Loaded Event
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
     
-    // Hide loading overlay
-    setTimeout(() => {
-        document.getElementById('loadingOverlay').classList.add('hidden');
-    }, 500);
+    // Hide loading overlay quickly
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) {
+        requestAnimationFrame(() => {
+            overlay.classList.add('hidden');
+        });
+    }
     
     // Initialize all features
     initParticleBackground();
@@ -122,20 +150,24 @@ function initParticleBackground() {
     });
 }
 
-// Parallax Scrolling Effect
+// Parallax Scrolling Effect - Optimized with throttling
 function initParallaxEffect() {
     const hero = document.querySelector('.hero');
     const heroImage = document.querySelector('.hero-image');
     
     if (!hero || !heroImage) return;
     
-    window.addEventListener('scroll', () => {
+    let ticking = false;
+    
+    const updateParallax = throttle(() => {
         const scrollY = window.pageYOffset;
+        const windowHeight = window.innerHeight;
         
         // Parallax for hero image
-        if (scrollY < window.innerHeight) {
+        if (scrollY < windowHeight) {
             heroImage.style.transform = `translateY(${scrollY * 0.3}px)`;
-            heroImage.style.opacity = 1 - scrollY / window.innerHeight;
+            heroImage.style.opacity = 1 - scrollY / windowHeight;
+            heroImage.style.willChange = 'transform, opacity';
         }
         
         // Parallax for particles
@@ -143,7 +175,10 @@ function initParallaxEffect() {
         if (particles) {
             particles.style.transform = `translateY(${scrollY * 0.5}px)`;
         }
-    });
+    }, 16);
+    
+    // Use passive listener for better scroll performance
+    window.addEventListener('scroll', updateParallax, { passive: true });
 }
 
 // Counter Animation for Stats
@@ -544,16 +579,18 @@ function initMobileMenu() {
     }
 }
 
-// Scroll Progress Indicator
+// Scroll Progress Indicator - Optimized with passive listener
 function initScrollProgress() {
     const scrollProgress = document.getElementById('scrollProgress');
     
-    window.addEventListener('scroll', function() {
+    const updateProgress = throttle(() => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollPercentage = (scrollTop / scrollHeight) * 100;
         scrollProgress.style.width = scrollPercentage + '%';
-    });
+    }, 16);
+    
+    window.addEventListener('scroll', updateProgress, { passive: true });
 }
 
 // Back to Top Button
@@ -575,8 +612,8 @@ function initBackToTop() {
     
     const progressCircle = progressContainer.querySelector('.progress');
     
-    // Update button visibility and progress on scroll
-    function updateBackToTop() {
+    // Update button visibility and progress on scroll - Optimized
+    const updateBackToTop = throttle(() => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollPercentage = (scrollTop / scrollHeight) * 100;
@@ -591,9 +628,9 @@ function initBackToTop() {
         // Update progress circle (126 is the circumference: 2 * π * 20)
         const offset = 126 - (126 * scrollPercentage / 100);
         progressCircle.style.strokeDashoffset = offset;
-    }
+    }, 16);
     
-    window.addEventListener('scroll', updateBackToTop);
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
     updateBackToTop(); // Initial check
     
     // Smooth scroll to top with animation
@@ -842,16 +879,22 @@ function initCardHoverEffects() {
     });
 }
 
-// Navbar Background on Scroll
-window.addEventListener('scroll', function() {
+// Navbar Background on Scroll - Optimized
+const updateNavbar = throttle(() => {
     const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
     
     if (window.pageYOffset > 50) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
-});
+}, 16);
+
+window.addEventListener('scroll', updateNavbar, { passive: true });
+
+// Initial check
+updateNavbar();
 
 // Skills Progress Bars Animation (if any)
 const skillsObserver = new IntersectionObserver((entries) => {
