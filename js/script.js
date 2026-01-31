@@ -239,19 +239,79 @@ function initScrollProgress() {
 function initBackToTop() {
     const backToTop = document.getElementById('backToTop');
     
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
+    if (!backToTop) return;
+    
+    // Create progress indicator SVG
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'back-to-top-progress';
+    progressContainer.innerHTML = `
+        <svg viewBox="0 0 50 50">
+            <circle class="bg" cx="25" cy="25" r="20"></circle>
+            <circle class="progress" cx="25" cy="25" r="20"></circle>
+        </svg>
+    `;
+    backToTop.parentNode.insertBefore(progressContainer, backToTop);
+    
+    const progressCircle = progressContainer.querySelector('.progress');
+    
+    // Update button visibility and progress on scroll
+    function updateBackToTop() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        
+        // Show button after 300px scroll
+        if (scrollTop > 300) {
             backToTop.classList.add('visible');
         } else {
             backToTop.classList.remove('visible');
         }
-    });
+        
+        // Update progress circle (126 is the circumference: 2 * π * 20)
+        const offset = 126 - (126 * scrollPercentage / 100);
+        progressCircle.style.strokeDashoffset = offset;
+    }
     
-    backToTop.addEventListener('click', function() {
+    window.addEventListener('scroll', updateBackToTop);
+    updateBackToTop(); // Initial check
+    
+    // Smooth scroll to top with animation
+    backToTop.addEventListener('click', function(e) {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+        
+        // Smooth scroll to top
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
+    });
+    
+    // Add hover animation to icon
+    backToTop.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px) scale(1.05)';
+    });
+    
+    backToTop.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+    });
+    
+    // Add active state
+    backToTop.addEventListener('mousedown', function() {
+        this.style.transform = 'translateY(-2px) scale(1.02)';
+    });
+    
+    backToTop.addEventListener('mouseup', function() {
+        this.style.transform = '';
     });
 }
 
