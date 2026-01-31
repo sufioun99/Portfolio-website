@@ -69,15 +69,23 @@ function initTemplateSwitcher() {
     
     // Set initial template from localStorage or default to template1
     const savedTemplate = localStorage.getItem('template');
-    if (savedTemplate === 'template2') {
-        document.body.classList.add('template2');
-        document.querySelector('[data-template="template1"]').classList.remove('active');
-        document.querySelector('[data-template="template2"]').classList.add('active');
-    } else {
-        document.body.classList.remove('template2');
-        document.querySelector('[data-template="template1"]').classList.add('active');
-        document.querySelector('[data-template="template2"]').classList.remove('active');
-    }
+    const validTemplates = ['template1', 'template2', 'template3', 'template4', 'template5'];
+    const currentTemplate = validTemplates.includes(savedTemplate) ? savedTemplate : 'template1';
+    
+    // Remove all template classes
+    document.body.classList.remove('template1', 'template2', 'template3', 'template4', 'template5');
+    
+    // Add current template class
+    document.body.classList.add(currentTemplate);
+    
+    // Update button states
+    templateBtns.forEach(btn => {
+        if (btn.dataset.template === currentTemplate) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
     
     templateBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -92,16 +100,14 @@ function initTemplateSwitcher() {
             // Add active class to clicked button
             this.classList.add('active');
             
-            // Toggle template class
-            if (template === 'template2') {
-                document.body.classList.add('template2');
-                localStorage.setItem('template', 'template2');
-                console.log('Template 2 activated');
-            } else {
-                document.body.classList.remove('template2');
-                localStorage.setItem('template', 'template1');
-                console.log('Template 1 activated');
-            }
+            // Remove all template classes
+            document.body.classList.remove('template1', 'template2', 'template3', 'template4', 'template5');
+            
+            // Add selected template class
+            document.body.classList.add(template);
+            localStorage.setItem('template', template);
+            
+            console.log(template + ' activated');
             
             // Remove transition class after animation completes
             setTimeout(() => {
