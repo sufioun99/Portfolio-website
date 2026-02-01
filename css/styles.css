@@ -340,6 +340,110 @@ body.template-transition {
     transition: transform 0.3s ease-out;
 }
 
+/* Hero Social Links - Side by Side */
+.hero-social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+/* Hero Title and Subtitle - Optimized for Dynamic Titles */
+.hero-title {
+    margin-bottom: 0.5rem;
+}
+
+.hero-title .title-primary {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.hero-title .title-secondary {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    min-height: 2rem;
+    margin-bottom: 1rem;
+}
+
+.typing-text {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* Hero Description */
+.hero-description {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+/* Hero Buttons */
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Responsive Hero Section */
+@media (max-width: 1024px) {
+    .hero-title .title-secondary {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title .title-secondary {
+        font-size: 2rem;
+    }
+    
+    .hero-social-links {
+        gap: 0.75rem;
+    }
+    
+    .social-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title .title-secondary {
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        min-height: 1.5rem;
+    }
+    
+    .typing-text {
+        font-size: 1rem;
+    }
+    
+    .hero-social-links {
+        gap: 0.5rem;
+    }
+    
+    .social-icon {
+        width: 38px;
+        height: 38px;
+    }
+}
+
 /* Animated Background Gradient */
 .hero::after {
     content: '';
